@@ -1,0 +1,642 @@
+
+.root {
+    -fx-background-color: -bg-deep;
+    -fx-font-family:      "Segoe UI", "Arial", sans-serif;
+    -fx-font-size:        15px;
+    -fx-text-fill:        -text-bright;
+}
+
+.label { -fx-text-fill: -text-mid; }
+
+.toolbar {
+    -fx-background-color: -bg-chrome;
+    -fx-border-color:     transparent transparent -border-chrome transparent;
+    -fx-border-width:     0 0 1 0;
+    -fx-padding:          0 24 0 20;
+    -fx-min-height:       56px;
+    -fx-max-height:       56px;
+    -fx-alignment:        center-left;
+    -fx-spacing:          12;
+}
+
+.toolbar.toolbar-stacked {
+    -fx-min-height: -1;
+    -fx-max-height: -1;
+    -fx-padding:    12 24 12 20;
+    -fx-alignment:  top-left;
+}
+
+.bar-control-label { -fx-text-fill: -text-mid; -fx-font-size: 13px; -fx-font-weight: bold; }
+
+.logo-mark {
+    -fx-min-width:         32px;
+    -fx-max-width:         32px;
+    -fx-min-height:        32px;
+    -fx-max-height:        32px;
+    -fx-background-color:  -gold-dim;
+    -fx-background-radius: 50%;
+}
+
+.app-title {
+    -fx-font-family: "Georgia", serif;
+    -fx-font-size:   18px;
+    -fx-text-fill:   -gold-hi;
+    -fx-font-weight: bold;
+    -fx-effect:      dropshadow(gaussian, -gold-glow, 8, 0, 0, 0);
+}
+
+.status-dot {
+    -fx-min-width:         10px;
+    -fx-max-width:         10px;
+    -fx-min-height:        10px;
+    -fx-max-height:        10px;
+    -fx-background-radius: 50%;
+}
+.dot-online  { -fx-background-color: -green-ok; }
+.dot-offline { -fx-background-color: -gold-dim; }
+
+.status-label {
+    -fx-text-fill: -text-dim;
+    -fx-font-size: 12px;
+}
+
+.status-bar {
+    -fx-background-color: -bg-panel;
+    -fx-border-color:     -border transparent transparent transparent;
+    -fx-border-width:     1 0 0 0;
+    -fx-padding:          8 16 8 16;
+    -fx-spacing:          10;
+    -fx-alignment:        center-left;
+}
+.status-bar .label { -fx-text-fill: -text-dim; -fx-font-size: 12px; }
+
+.main-tabs {
+    -fx-background-color: -bg-deep;
+    -fx-tab-min-height:   40px;
+    -fx-tab-max-height:   40px;
+}
+.main-tabs .tab-header-area {
+    -fx-background-color: -bg-chrome;
+    -fx-padding:          0 0 0 20;
+    -fx-border-color:     transparent transparent -border-chrome transparent;
+    -fx-border-width:     0 0 1 0;
+}
+.main-tabs .tab-header-area .tab-header-background,
+.main-tabs .tab-header-area .headers-region,
+.main-tabs .tab-header-area .control-buttons-tab {
+    -fx-background-color: -bg-chrome;
+}
+.main-tabs .tab {
+    -fx-background-color: transparent;
+    -fx-border-color:     transparent;
+    -fx-font-size:        14px;
+    -fx-padding:          10 22 10 22;
+    -fx-font-weight:      bold;
+    -fx-opacity:          0.72;
+}
+.main-tabs .tab .tab-label { -fx-text-fill: -text-on-chrome; }
+.main-tabs .tab:selected {
+    -fx-border-color:     transparent transparent -gold-hi transparent;
+    -fx-border-width:     0 0 2 0;
+    -fx-background-color: -gold-wash;
+    -fx-opacity:          1.0;
+}
+.main-tabs .tab:selected .tab-label { -fx-text-fill: -gold-hi; }
+.main-tabs .tab:hover {
+    -fx-opacity: 1.0;
+    -fx-cursor:  hand;
+}
+.main-tabs .tab-content-area { -fx-background-color: -bg-deep; -fx-padding: 0; }
+
+.card {
+    -fx-background-color:  -bg-card;
+    -fx-background-radius: 12px;
+    -fx-border-color:      -border-card;
+    -fx-border-radius:     12px;
+    -fx-border-width:      1px;
+    -fx-padding:           22 26 22 26;
+    -fx-effect:            dropshadow(gaussian, -shadow, 16, 0, 0, 6);
+}
+.card-title {
+    -fx-font-family:    "Georgia", serif;
+    -fx-font-size:      16px;
+    -fx-text-fill:      -gold-hi;
+    -fx-font-weight:    bold;
+    -fx-padding:        0 0 14 0;
+    -fx-effect:         dropshadow(gaussian, -gold-glow, 8, 0, 0, 0);
+}
+
+.panel {
+    -fx-background-color: -bg-deep;
+}
+
+.composer-split {
+    -fx-background-color: -bg-deep;
+    -fx-padding:          0;
+}
+.composer-split > .split-pane-divider {
+    -fx-background-color: -border;
+    -fx-pref-width:       1px;
+}
+.params-scroll             { -fx-background-color: transparent; }
+.params-scroll > .viewport { -fx-background-color: transparent; }
+.params-inner {
+    -fx-padding: 20 22 20 22;
+    -fx-spacing: 14;
+}
+
+.field-label {
+    -fx-text-fill:   -text-mid;
+    -fx-font-size:   13px;
+    -fx-font-weight: bold;
+    -fx-padding:     8 0 3 0;
+}
+
+.field-choice {
+    -fx-background-color:  -bg-raised;
+    -fx-border-color:      -border-hi;
+    -fx-border-radius:     6px;
+    -fx-background-radius: 6px;
+    -fx-pref-width:        10000;
+    -fx-max-width:         10000;
+    -fx-cursor:            hand;
+    -fx-padding:           0;
+}
+
+.field-choice.field-choice-narrow {
+    -fx-pref-width: 200px;
+    -fx-max-width:  230px;
+    -fx-min-width:  110px;
+}
+
+.field-choice.field-choice-filter {
+    -fx-pref-width: 300px;
+    -fx-max-width:  340px;
+    -fx-min-width:  150px;
+}
+
+.field-choice:hover,
+.field-choice:showing { -fx-border-color: -gold; -fx-background-color: -bg-hover; }
+.field-choice:focused { -fx-border-color: -gold; }
+
+.field-choice > .list-cell,
+.field-choice .list-cell {
+    -fx-text-fill:        -text-bright;
+    -fx-background-color: -bg-card;
+    -fx-font-size:        14px;
+    -fx-font-weight:      bold;
+    -fx-padding:          8 10 8 12;
+}
+.field-choice > .list-cell:hover,
+.field-choice > .list-cell:focused {
+    -fx-background-color: -bg-card;
+    -fx-text-fill:        -text-bright;
+}
+.field-choice:showing > .list-cell { -fx-background-color: -bg-raised; }
+
+.field-choice .arrow-button {
+    -fx-background-color: transparent;
+    -fx-padding:          0 10 0 6;
+}
+.field-choice .arrow-button .arrow {
+    -fx-background-color: -gold;
+    -fx-scale-x:          0.85;
+    -fx-scale-y:          0.85;
+}
+
+.field-input {
+    -fx-background-color:  -bg-raised;
+    -fx-border-color:      -border;
+    -fx-border-radius:     6px;
+    -fx-background-radius: 6px;
+    -fx-text-fill:         -text-bright;
+    -fx-prompt-text-fill:  -text-muted;
+    -fx-font-size:         13px;
+    -fx-padding:           7 12 7 12;
+    -fx-pref-width:        10000;
+    -fx-max-width:         10000;
+}
+.field-input:focused { -fx-border-color: -gold-dim; }
+
+.scale-row { -fx-padding: 10 0 2 0; }
+
+.scale-row .syl-tile { -fx-padding: 6 8 6 8; }
+
+.syl-tile {
+    -fx-background-color:  -bg-raised;
+    -fx-background-radius: 8px;
+    -fx-border-color:      -border;
+    -fx-border-radius:     8px;
+    -fx-border-width:      1px;
+    -fx-text-fill:         -text-mid;
+    -fx-font-family:       "Georgia", serif;
+    -fx-font-size:         14px;
+    -fx-padding:           6 12 6 12;
+    -fx-cursor:            default;
+}
+.syl-finalis {
+    -fx-background-color: -finalis-bg;
+    -fx-border-color:     -gold;
+    -fx-text-fill:        -gold-hi;
+    -fx-font-weight:      bold;
+    -fx-effect:           dropshadow(gaussian, -gold-glow, 8, 0, 0, 0);
+}
+.syl-ison {
+    -fx-border-color: -accent-teal;
+    -fx-text-fill:    -accent-teal;
+}
+
+.generate-zone {
+    -fx-padding:   18 18 18 18;
+    -fx-spacing:   12;
+    -fx-alignment: center;
+}
+.generate-btn {
+    -fx-background-color:  linear-gradient(to bottom, -gold, -gold-deep);
+    -fx-background-radius: 8px;
+    -fx-border-radius:     8px;
+    -fx-text-fill:         -text-on-gold;
+    -fx-font-size:         14px;
+    -fx-font-weight:       bold;
+    -fx-padding:           11 28 11 28;
+    -fx-max-width:         10000;
+    -fx-cursor:            hand;
+    -fx-effect:            dropshadow(gaussian, -gold-glow, 12, 0, 0, 3);
+}
+.generate-btn:hover   { -fx-background-color: linear-gradient(to bottom, -gold-hi, -gold); }
+.generate-btn:pressed { -fx-scale-x: 0.97; -fx-scale-y: 0.97; }
+.generate-btn:disabled {
+    -fx-background-color: -bg-raised;
+    -fx-text-fill:        -text-muted;
+    -fx-cursor:           default;
+    -fx-effect:           none;
+}
+
+.output-panel {
+    -fx-background-color: -bg-deep;
+    -fx-padding:          0;
+}
+.output-toolbar {
+    -fx-background-color: -bg-panel;
+    -fx-border-color:     transparent transparent -border transparent;
+    -fx-border-width:     0 0 1 0;
+    -fx-padding:          10 16 10 16;
+    -fx-spacing:          8;
+    -fx-alignment:        center-left;
+}
+.output-meta {
+    -fx-text-fill:  -text-dim;
+    -fx-font-size:  11px;
+    -fx-font-style: italic;
+    -fx-padding:    0 16 0 0;
+}
+.output-area {
+    -fx-background-color: -bg-card;
+    -fx-border-color:     -border-card;
+    -fx-text-fill:        -text-bright;
+    -fx-font-family:      "Georgia", serif;
+    -fx-font-size:        14px;
+    -fx-padding:          20 24 20 24;
+    -fx-prompt-text-fill: -text-muted;
+}
+.output-area .content { -fx-background-color: -bg-card; }
+.output-area:focused { -fx-border-color: -gold-dim; }
+
+.button, .toolbar-btn {
+    -fx-background-color:  -bg-raised;
+    -fx-background-radius: 6px;
+    -fx-border-color:      -border-hi;
+    -fx-border-radius:     6px;
+    -fx-border-width:      1px;
+    -fx-text-fill:         -text-bright;
+    -fx-font-size:         13px;
+    -fx-font-weight:       bold;
+    -fx-padding:           7 16 7 16;
+    -fx-cursor:            hand;
+}
+.button:hover, .toolbar-btn:hover {
+    -fx-background-color: -bg-hover;
+    -fx-border-color:     -gold-dim;
+}
+.button:pressed, .toolbar-btn:pressed   { -fx-scale-x: 0.97; -fx-scale-y: 0.97; }
+.button:disabled, .toolbar-btn:disabled { -fx-opacity: 0.35; -fx-cursor: default; }
+
+.toolbar-btn-primary       { -fx-border-color: -gold; -fx-text-fill: -gold-hi; }
+.toolbar-btn-primary:hover { -fx-background-color: -gold-wash; -fx-border-color: -gold-hi; }
+
+.library-panel {
+    -fx-background-color: -bg-chrome;
+    -fx-padding:          16;
+    -fx-spacing:          14;
+}
+.library-list {
+    -fx-background-color:  -bg-deep;
+    -fx-border-color:      -border;
+    -fx-border-radius:     8px;
+    -fx-background-radius: 8px;
+}
+.library-list .list-cell {
+    -fx-background-color: transparent;
+    -fx-padding:          0;
+}
+.library-list .list-cell:filled:hover    { -fx-background-color: -bg-raised; }
+.library-list .list-cell:filled:selected { -fx-background-color: -gold-wash; }
+.lib-sub   { -fx-text-fill: -text-dim;    -fx-font-size: 11px; }
+.library-detail {
+    -fx-background-color:  transparent;
+    -fx-text-fill:         -text-bright;
+    -fx-font-family:       "Georgia", serif;
+    -fx-font-size:         13px;
+    -fx-padding:           20 28 20 28;
+    -fx-border-color:      transparent;
+    -fx-border-width:      0;
+    -fx-background-radius: 0;
+}
+.library-detail .content,
+.library-detail .scroll-pane,
+.library-detail .scroll-pane .viewport,
+.library-detail .scroll-pane .content,
+.library-detail .scroll-pane > .corner { -fx-background-color: -bg-deep; }
+.library-detail .scroll-bar            { -fx-background-color: -bg-panel; }
+
+.ref-outer { -fx-background-color: -bg-deep; -fx-padding: 0; }
+
+.ref-filter-bar {
+    -fx-background-color: -bg-panel;
+    -fx-border-color:     transparent transparent -border transparent;
+    -fx-border-width:     0 0 1 0;
+    -fx-padding:          14 20 14 20;
+    -fx-spacing:          14;
+    -fx-alignment:        center-left;
+}
+
+.ref-search-field {
+    -fx-background-color:  -bg-raised;
+    -fx-border-color:      -border;
+    -fx-border-radius:     6px;
+    -fx-background-radius: 6px;
+    -fx-text-fill:         -text-bright;
+    -fx-prompt-text-fill:  -text-muted;
+    -fx-font-size:         13px;
+    -fx-padding:           7 12 7 12;
+}
+
+.ref-search-field.ref-search-short {
+    -fx-pref-width: 260px;
+    -fx-max-width:  300px;
+    -fx-min-width:  140px;
+}
+
+.ref-search-field:focused {
+    -fx-border-color: -gold;
+    -fx-effect:       dropshadow(gaussian, -gold-glow, 6, 0, 0, 0);
+}
+
+.ref-filter-label {
+    -fx-text-fill:   -text-mid;
+    -fx-font-size:   13px;
+    -fx-font-weight: bold;
+}
+
+.ref-scroll             { -fx-background-color: transparent; }
+.ref-scroll > .viewport { -fx-background-color: transparent; }
+
+.ref-title {
+    -fx-font-family:  "Georgia", serif;
+    -fx-font-size:    22px;
+    -fx-text-fill:    -text-bright;
+    -fx-padding:      0 0 6 0;
+    -fx-border-color: transparent transparent -gold-dim transparent;
+    -fx-border-width: 0 0 1 0;
+}
+
+.ref-section {
+    -fx-font-family: "Georgia", serif;
+    -fx-font-size:   15px;
+    -fx-text-fill:   -gold;
+    -fx-font-style:  italic;
+    -fx-padding:     18 0 6 0;
+}
+
+.ref-neume-name {
+    -fx-text-fill:   -gold;
+    -fx-font-family: "Georgia", serif;
+    -fx-font-size:   13px;
+    -fx-font-weight: bold;
+    -fx-padding:     10 0 2 0;
+}
+
+.ref-cell {
+    -fx-text-fill: -text-mid;
+    -fx-font-size: 13px;
+}
+.ref-panel  { -fx-background-color: transparent; -fx-padding: 24 28 24 28; -fx-spacing: 10; }
+
+.ref-panel.guide-body { -fx-padding: 24 44 44 32; }
+.ref-body {
+    -fx-font-family:  "Georgia", serif;
+    -fx-font-size:    13px;
+    -fx-text-fill:    -text-mid;
+    -fx-line-spacing: 3;
+}
+
+.quiz-outer              { -fx-background-color: -bg-deep; -fx-padding: 0; }
+.quiz-scroll             { -fx-background-color: transparent; }
+.quiz-scroll > .viewport { -fx-background-color: transparent; }
+.quiz-content {
+    -fx-padding:   32 40 32 40;
+    -fx-spacing:   20;
+    -fx-alignment: center;
+    -fx-max-width: 760;
+}
+.quiz-header-label {
+    -fx-font-family: "Georgia", serif;
+    -fx-font-size:   20px;
+    -fx-text-fill:   -gold;
+    -fx-padding:     14 0 4 0;
+}
+.quiz-question {
+    -fx-background-color:  -bg-card;
+    -fx-background-radius: 12px;
+    -fx-border-color:      -border-card;
+    -fx-border-radius:     12px;
+    -fx-border-width:      1px;
+    -fx-text-fill:         -text-bright;
+    -fx-font-family:       "Georgia", serif;
+    -fx-font-size:         16px;
+    -fx-padding:           24 28 24 28;
+    -fx-wrap-text:         true;
+    -fx-effect:            dropshadow(gaussian, -shadow, 12, 0, 0, 4);
+    -fx-max-width:         10000;
+}
+.quiz-content .radio-button {
+    -fx-background-color:  -bg-raised;
+    -fx-background-radius: 8px;
+    -fx-border-color:      -border;
+    -fx-border-radius:     8px;
+    -fx-border-width:      1px;
+    -fx-text-fill:         -text-bright;
+    -fx-font-size:         14px;
+    -fx-padding:           12 22 12 22;
+    -fx-cursor:            hand;
+    -fx-alignment:         center-left;
+    -fx-max-width:         10000;
+}
+.quiz-content .radio-button:hover { -fx-background-color: -bg-hover; -fx-border-color: -border-hi; }
+.quiz-content .radio-button .text { -fx-fill: -text-bright; }
+
+.answer-correct {
+    -fx-background-color: -ok-bg;
+    -fx-border-color:     -ok-border;
+    -fx-text-fill:        -ok-text;
+    -fx-font-weight:      bold;
+}
+.answer-correct .text { -fx-fill: -ok-text; }
+
+.answer-wrong {
+    -fx-background-color: -err-bg;
+    -fx-border-color:     -err-border;
+    -fx-text-fill:        -err-text;
+}
+.answer-wrong .text { -fx-fill: -err-text; }
+
+.feedback, .quiz-feedback {
+    -fx-font-family: "Georgia", serif;
+    -fx-font-size:   15px;
+    -fx-text-fill:   -text-mid;
+    -fx-padding:     10 0 4 0;
+    -fx-wrap-text:   true;
+}
+
+.scroll-pane             { -fx-background-color: transparent; }
+.scroll-pane > .viewport { -fx-background-color: transparent; }
+
+.scroll-bar                   { -fx-background-color: transparent; }
+.scroll-bar .track            { -fx-background-color: transparent; }
+.scroll-bar .thumb            { -fx-background-color: -border; -fx-background-radius: 4; }
+.scroll-bar .thumb:hover      { -fx-background-color: -border-hi; }
+.scroll-bar .increment-button,
+.scroll-bar .decrement-button { -fx-background-color: transparent; }
+.scroll-bar .increment-arrow,
+.scroll-bar .decrement-arrow  { -fx-background-color: -text-muted; }
+
+.progress-indicator { -fx-progress-color: -gold; -fx-background-color: transparent; }
+
+.slider .track {
+    -fx-background-color:  -bg-raised;
+    -fx-background-radius: 4;
+    -fx-pref-height:       4px;
+}
+.slider .thumb {
+    -fx-background-color:  -gold;
+    -fx-background-radius: 50%;
+    -fx-pref-width:        16px;
+    -fx-pref-height:       16px;
+    -fx-effect:            dropshadow(gaussian, -shadow, 4, 0, 0, 2);
+}
+.slider .thumb:hover   { -fx-background-color: -gold-hi; }
+.slider .thumb:pressed { -fx-scale-x: 0.9; -fx-scale-y: 0.9; }
+.slider .axis { -fx-tick-label-fill: -text-muted; }
+
+.list-view {
+    -fx-background-color:  -bg-deep;
+    -fx-border-color:      -border;
+    -fx-border-radius:     6px;
+    -fx-background-radius: 6px;
+}
+.list-view .list-cell {
+    -fx-background-color: transparent;
+    -fx-text-fill:        -text-mid;
+    -fx-padding:          6 12 6 12;
+}
+.list-view .list-cell:filled:hover    { -fx-background-color: -bg-raised; }
+.list-view .list-cell:filled:selected { -fx-background-color: -gold-wash; -fx-text-fill: -gold-hi; }
+
+.text-field, .text-area {
+    -fx-background-color:  -bg-raised;
+    -fx-border-color:      -border;
+    -fx-border-radius:     6px;
+    -fx-background-radius: 6px;
+    -fx-text-fill:         -text-bright;
+    -fx-prompt-text-fill:  -text-muted;
+}
+.text-area .content { -fx-background-color: -bg-raised; }
+.text-field:focused, .text-area:focused { -fx-border-color: -gold-dim; }
+
+.hint-label { -fx-text-fill: -text-muted; -fx-font-size: 11px; -fx-font-style: italic; }
+
+.tile {
+    -fx-background-color:  -bg-raised;
+    -fx-border-color:      -border;
+    -fx-border-radius:     6;
+    -fx-background-radius: 6;
+    -fx-text-fill:         -text-mid;
+    -fx-padding:           6 14 6 14;
+    -fx-font-size:         16px;
+}
+
+.context-menu {
+    -fx-background-color:  -bg-raised;
+    -fx-border-color:      -border-hi;
+    -fx-background-radius: 8px;
+    -fx-border-radius:     8px;
+    -fx-padding:           4;
+}
+.menu-item        { -fx-background-color: transparent; -fx-padding: 6 16 6 16; }
+.menu-item .label { -fx-text-fill: -text-bright; -fx-font-size: 13px; }
+.menu-item:hover  { -fx-background-color: -bg-hover; -fx-background-radius: 6px; }
+
+.guide-image {
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 6, 0, 0, 2);
+}
+
+.set-outer                    { -fx-background-color: -bg-deep; -fx-padding: 0; }
+.set-scroll                   { -fx-background-color: transparent; }
+.set-scroll > .viewport       { -fx-background-color: transparent; }
+.set-centre,
+.library-centre, .quiz-centre { -fx-background-color: transparent; }
+
+.set-lead {
+    -fx-text-fill: -text-dim;
+    -fx-font-size: 14px;
+}
+.set-name {
+    -fx-text-fill:   -text-bright;
+    -fx-font-size:   14px;
+    -fx-font-weight: bold;
+}
+.set-hint {
+    -fx-text-fill: -text-dim;
+    -fx-font-size: 12px;
+}
+
+.set-column { -fx-background-color: transparent; }
+
+.set-section { -fx-padding: 4 0 4 0; }
+
+.set-section-title {
+    -fx-text-fill:   -gold-hi;
+    -fx-font-family: "Georgia", serif;
+    -fx-font-size:   15px;
+    -fx-font-weight: bold;
+}
+
+.set-section-rule { -fx-background-color: -border-card; }
+
+.library-split, .ref-panel {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+}
+.library-split > .split-pane-divider,
+.ref-panel     > .split-pane-divider {
+    -fx-background-color: -border-card;
+    -fx-padding:          0 1 0 1;
+}
+.library-split > .split-pane-divider:hover,
+.ref-panel     > .split-pane-divider:hover {
+    -fx-background-color: -gold-dim;
+}
+
+.neume-sign {
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.35), 4, 0, 0, 1);
+}

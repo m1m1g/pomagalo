@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressIndicator?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="trainer.ComposerController">
+
+    <SplitPane dividerPositions="0.34" styleClass="composer-split"
+               VBox.vgrow="ALWAYS">
+
+        <ScrollPane fitToWidth="true" minWidth="430"
+                    styleClass="params-scroll">
+            <VBox styleClass="params-inner">
+
+                <VBox styleClass="card">
+                    <Label fx:id="cardVoiceTitle" styleClass="card-title"/>
+                    <Label fx:id="lblMode" styleClass="field-label"/>
+                    <ComboBox fx:id="modeChoice" styleClass="field-choice"/>
+                    <HBox fx:id="paralagePane" spacing="4"
+                          maxWidth="10000" styleClass="scale-row"/>
+                    <Label fx:id="lblTradition" styleClass="field-label"/>
+                    <ComboBox fx:id="tradChoice" styleClass="field-choice"/>
+                    <Label fx:id="lblStyle" styleClass="field-label"/>
+                    <ComboBox fx:id="styleChoice" styleClass="field-choice"/>
+                </VBox>
+
+                <VBox styleClass="card">
+                    <Label fx:id="cardParamsTitle" styleClass="card-title"/>
+                    <Label fx:id="lblTitle" styleClass="field-label"/>
+                    <TextField fx:id="incipitField" styleClass="field-input"/>
+                    <Label fx:id="lblLength" styleClass="field-label"/>
+                    <Slider fx:id="lengthSlider" min="8" max="48" value="20"
+                            majorTickUnit="8" minorTickCount="3"
+                            snapToTicks="true" showTickMarks="true"/>
+                    <Label fx:id="lengthLabel" styleClass="hint-label"/>
+                </VBox>
+
+                <VBox styleClass="generate-zone">
+                    <Button fx:id="generateBtn" styleClass="generate-btn" defaultButton="true"/>
+                    <ProgressIndicator fx:id="spinner" prefWidth="28" prefHeight="28"/>
+                </VBox>
+
+            </VBox>
+        </ScrollPane>
+
+        <VBox styleClass="output-panel">
+
+            <HBox styleClass="output-toolbar">
+                <Label fx:id="outputMeta" styleClass="output-meta"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Button fx:id="copyBtn" styleClass="toolbar-btn"/>
+                <Button fx:id="saveBtn" styleClass="toolbar-btn"/>
+            </HBox>
+
+            <TextArea fx:id="outputArea" editable="false" wrapText="true"
+                      styleClass="output-area" VBox.vgrow="ALWAYS"/>
+
+            <Label fx:id="statusLabel" styleClass="feedback" wrapText="true"/>
+
+        </VBox>
+
+    </SplitPane>
+
+</VBox>
