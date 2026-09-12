@@ -9,12 +9,8 @@ import org.apache.jena.query.QueryFactory;
 import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
 import org.apache.jena.rdf.model.ModelFactory;
-import org.apache.jena.update.UpdateAction;
-import org.apache.jena.update.UpdateFactory;
-import org.apache.jena.update.UpdateRequest;
 
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -26,7 +22,8 @@ public final class Ontology {
 
     private static final Logger LOG = Logger.getLogger(Ontology.class.getName());
 
-    private static final String IME = "byzantine_music3.owl";
+    private static final String IME = "byzantine_music4.owl";
+
     private static final String NS   = "http://www.paralagia.bg/ontology/vizantiiska-muzika#";
     private static final String BASE = "http://www.paralagia.bg/ontology/vizantiiska-muzika";
 
@@ -96,27 +93,27 @@ public final class Ontology {
         return rows;
     }
 
-    public synchronized boolean update(String sparqlUpdate) {
-        if (!loaded) { lastError = "Онтологията не е заредена"; return false; }
-        try {
-            UpdateRequest req = UpdateFactory.create(PREFIX + sparqlUpdate);
-            UpdateAction.execute(req, model);
-            try (FileOutputStream out =
-                     new FileOutputStream(Pathove.danni(IME).toFile())) {
-                model.getBaseModel().write(out, FORMAT, BASE);
-            }
-            lastError = null;
-            return true;
-        } catch (Exception e) {
-            lastError = e.getMessage();
-            LOG.warning("[Ontology] Грешка при запис: " + e.getMessage());
-            return false;
-        }
-    }
-
     public String  lastError() { return lastError; }
     public long    size()      { return loaded ? model.size() : 0; }
     public String  ns()        { return NS; }
+
+    /**
+     * Дали името е годно да се сложи направо в заявка.
+     *
+     * <p>Имената на индивидите идват от самата онтология или се
+     * съставят от приложението, но заявката се сглобява като низ, тъй
+     * че чуждо име не бива да минава непроверено.</p>
+     */
+    public static boolean godnoIme(String ime) {
+        if (ime == null || ime.isBlank()) return false;
+        for (int i = 0; i < ime.length(); i++) {
+            char c = ime.charAt(i);
+            boolean dobra = (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z')
+                         || (c >= '0' && c <= '9') || c == '_' || c == '-';
+            if (!dobra) return false;
+        }
+        return true;
+    }
 
     public static String esc(String s) {
         if (s == null) return "";

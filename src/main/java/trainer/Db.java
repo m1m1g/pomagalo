@@ -60,7 +60,7 @@ public final class Db {
             ps.setString(5, now());
             ps.executeUpdate();
         } catch (Exception e) {
-            LOG.warning("[Db] Грешка при запис на песнопение: " + e.getMessage());
+            LOG.warning("[Db] Грешка при запис на упражнение: " + e.getMessage());
         }
     }
 
@@ -74,7 +74,7 @@ public final class Db {
                     rs.getString(4), rs.getString(5), rs.getString(6)});
             }
         } catch (Exception e) {
-            LOG.warning("[Db] Грешка при четене на песнопения: " + e.getMessage());
+            LOG.warning("[Db] Грешка при четене на упражнения: " + e.getMessage());
         }
         return out;
     }
@@ -84,7 +84,7 @@ public final class Db {
             ps.setString(1, id);
             ps.executeUpdate();
         } catch (Exception e) {
-            LOG.warning("[Db] Грешка при изтриване на песнопение: " + e.getMessage());
+            LOG.warning("[Db] Грешка при изтриване на упражнение: " + e.getMessage());
         }
     }
 

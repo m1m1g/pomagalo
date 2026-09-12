@@ -34,27 +34,10 @@ public class Bridge extends Agent {
                            Consumer<String> onOk, Consumer<String> onError) {
         Bridge b = get();
         if (b == null) {
-            offline(service, content, onOk, onError);
+            onError.accept(Lang.t("svcNoAgents"));
             return;
         }
         b.addBehaviour(new Send(service, content, onOk, onError));
-    }
-
-    private static void offline(String service, String content,
-                                Consumer<String> onOk, Consumer<String> onError) {
-        try {
-            String result;
-            if (OntologyAgent.SERVICE.equals(service))      result = OntologyAgent.handle(content);
-            else if (QuizAgent.SERVICE.equals(service))     result = QuizAgent.handle(content);
-            else if (LibrarianAgent.SERVICE.equals(service)) result = LibrarianAgent.handle(content);
-            else if (ComposerAgent.SERVICE.equals(service))  result = ComposerAgent.handle(content);
-            else { onError.accept(Lang.t("svcUnknown") + service); return; }
-
-            if (result != null && result.startsWith("ERROR:")) onError.accept(result);
-            else onOk.accept(result);
-        } catch (Exception e) {
-            onError.accept(e.getMessage());
-        }
     }
 
     private static class Send extends OneShotBehaviour {
@@ -71,7 +54,7 @@ public class Bridge extends Agent {
             try {
                 AID target = ((Bridge) myAgent).resolve(service);
                 if (target == null) {
-                    offline(service, content, onOk, onError);
+                    onError.accept(Lang.t("svcNoAgents"));
                     return;
                 }
 

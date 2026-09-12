@@ -48,10 +48,6 @@ public class QuizAgent extends Agent {
         }
     }
 
-    public static String handle(String content) {
-        return build(content, Quiz.glasove(), Quiz.stapki());
-    }
-
     private static String build(String content,
                                 List<Map<String, String>> glasove,
                                 List<Map<String, String>> stapki) {
@@ -87,7 +83,7 @@ public class QuizAgent extends Agent {
     private List<Map<String, String>> fetch(String command) {
         try {
             if (ontology == null) ontology = findOntology();
-            if (ontology == null) return fallback(command);
+            if (ontology == null) return List.of();
 
             String key = "q-" + System.currentTimeMillis();
             ACLMessage req = new ACLMessage(ACLMessage.REQUEST);
@@ -98,17 +94,13 @@ public class QuizAgent extends Agent {
 
             ACLMessage reply = blockingReceive(MessageTemplate.MatchInReplyTo(key), TIMEOUT);
             if (reply == null || reply.getPerformative() == ACLMessage.FAILURE) {
-                return fallback(command);
+                return List.of();
             }
             return Ontology.decodeRows(reply.getContent());
         } catch (Exception e) {
             LOG.warning("[QuizAgent] Заявката към онтологията пропадна: " + e.getMessage());
-            return fallback(command);
+            return List.of();
         }
-    }
-
-    private static List<Map<String, String>> fallback(String command) {
-        return command.endsWith("stapki") ? Quiz.stapki() : Quiz.glasove();
     }
 
     private AID findOntology() {

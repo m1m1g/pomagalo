@@ -17,7 +17,7 @@ public class ComposerAgent extends Agent {
     public static final String SERVICE = "composer";
 
     public record Composed(String title, String flow, String notes,
-                           String mode, String tradition, String style,
+                           String mode, String style,
                            String ison) {}
 
     private static final Composer COMPOSER = new Composer();
@@ -26,7 +26,7 @@ public class ComposerAgent extends Agent {
     protected void setup() {
         register();
         addBehaviour(new Handle());
-        LOG.info("[ComposerAgent] Готов. Съставя песнопения.");
+        LOG.info("[ComposerAgent] Готов. Съставя упражнения.");
     }
 
     @Override
@@ -56,21 +56,20 @@ public class ComposerAgent extends Agent {
         if (!cmd.startsWith("COMPOSE:")) return "ERROR: непозната команда";
 
         String[] p = cmd.substring("COMPOSE:".length()).split("\\|", -1);
-        if (p.length < 5) return "ERROR: заявката иска пет полета";
+        if (p.length < 4) return "ERROR: заявката иска четири полета";
 
         try {
             Composer.Mode mode = modeByNumber(p[0]);
             if (mode == null) return "ERROR: няма глас с номер " + p[0];
 
             Composer.Chant chant = COMPOSER.compose(
-                mode, styleByKey(p[1]), traditionByKey(p[2]), p[3], dylzhina(p[4]));
+                mode, styleByKey(p[1]), p[2], dylzhina(p[3]));
 
             return encode(new Composed(
                 chant.title(),
                 Composer.flow(chant),
                 chant.notes(),
                 chant.mode() != null ? chant.mode().label() : "",
-                chant.tradition() != null ? chant.tradition().label() : "",
                 chant.style() != null ? chant.style().label() : "",
                 chant.ison()));
         } catch (Exception e) {
@@ -91,12 +90,6 @@ public class ComposerAgent extends Agent {
         return null;
     }
 
-    private static Composer.Tradition traditionByKey(String key) {
-        if (key == null || key.isBlank()) return null;
-        for (Composer.Tradition t : COMPOSER.traditions()) if (key.equals(t.key())) return t;
-        return null;
-    }
-
     private static int dylzhina(String v) {
         try {
             return Integer.parseInt(v.trim());
@@ -111,7 +104,6 @@ public class ComposerAgent extends Agent {
             c.flow().replace("|", "/").replace("\n", "⏎"),
             c.notes().replace("|", "/").replace("\n", "⏎"),
             LibrarianAgent.pole(c.mode()),
-            LibrarianAgent.pole(c.tradition()),
             LibrarianAgent.pole(c.style()),
             LibrarianAgent.pole(c.ison()));
     }
@@ -119,11 +111,11 @@ public class ComposerAgent extends Agent {
     public static Composed decode(String raw) {
         if (raw == null) return null;
         String[] p = raw.split("\\|", -1);
-        if (p.length < 7) return null;
+        if (p.length < 6) return null;
         return new Composed(p[0],
                             p[1].replace("⏎", "\n"),
                             p[2].replace("⏎", "\n"),
-                            p[3], p[4], p[5], p[6]);
+                            p[3], p[4], p[5]);
     }
 
     private class Handle extends CyclicBehaviour {

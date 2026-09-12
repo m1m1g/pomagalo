@@ -4,16 +4,13 @@
 @prefix xml: <http://www.w3.org/XML/1998/namespace> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
-@base <http://www.paralagia.bg/ontology/vizantiiska-muzika> .
+@base <http://www.paralagia.bg/ontology/vizantiiska-muzika#> .
 
 <http://www.paralagia.bg/ontology/vizantiiska-muzika> rdf:type owl:Ontology ;
-                                                       <http://purl.org/dc/terms/license> "https://creativecommons.org" ;
-                                                       :hasImageSource "https://f4.bcbits.com/img/a2296629312_10.jpg" ,
-                                                                       "https://ivanpramatarov.bandcamp.com/track/6-6-glas-dogmatik-paralagia" ;
-                                                       rdfs:comment <https://creativecommons.org> ,
-                                                                    "Created for educational and research purposes in the domain of the eastern orthodox chanting tradition"@en ,
+                                                       <http://purl.org/dc/terms/license> "https://creativecommons.org/licenses/by-sa/4.0/" ;
+                                                       rdfs:comment "Created for educational and research purposes in the domain of the eastern orthodox chanting tradition"@en ,
                                                                     "Създадена за образователни и изследователски цели в областта на православната певческа традиция."@bg ;
-                                                       owl:versionInfo "1.1" .
+                                                       owl:versionInfo "1.2" .
 
 #################################################################
 #    Annotation properties
@@ -21,6 +18,10 @@
 
 ###  http://purl.org/dc/terms/license
 <http://purl.org/dc/terms/license> rdf:type owl:AnnotationProperty .
+
+
+###  http://purl.org/dc/terms/source
+<http://purl.org/dc/terms/source> rdf:type owl:AnnotationProperty .
 
 
 ###  http://www.paralagia.bg/ontology/vizantiiska-muzika#birthYear
@@ -84,12 +85,8 @@
 :styleKey rdf:type owl:AnnotationProperty .
 
 
-#################################################################
-#    Datatypes
-#################################################################
-
-###  http://www.w3.org/2001/XMLSchema#gYear
-xsd:gYear rdf:type rdfs:Datatype .
+###  http://www.paralagia.bg/ontology/vizantiiska-muzika#traditionKey
+:traditionKey rdf:type owl:AnnotationProperty .
 
 
 #################################################################
@@ -103,7 +100,7 @@ xsd:gYear rdf:type rdfs:Datatype .
                rdfs:domain :Performance ;
                rdfs:range :Ensemble ;
                rdfs:comment "Links a work to instrumental or choral accompaniment in performance."@en ,
-                            "Свързва произведение с даден акомпанимент" ;
+                            "Свързва произведение с даден акомпанимент"@bg ;
                rdfs:label "accompanied by"@en ,
                           "придружено от"@bg .
 
@@ -209,7 +206,7 @@ xsd:gYear rdf:type rdfs:Datatype .
                           owl:FunctionalProperty ,
                           owl:AsymmetricProperty ,
                           owl:IrreflexiveProperty ;
-                 rdfs:domain :Chanter ;
+                 rdfs:domain :Person ;
                  rdfs:range :ChantingSchool ;
                  rdfs:comment "Свързва певец или мелодист с певческата школа, в която е обучен."@bg ;
                  rdfs:label "belongs to chanting school"@en ,
@@ -268,7 +265,7 @@ xsd:gYear rdf:type rdfs:Datatype .
            rdfs:domain :MusicalWork ;
            rdfs:range :ParalagiaStep ;
            rdfs:comment "Links a work to the syllable serving as melodic center."@en ,
-                        "Указва централната нота, към която се стреми произведението" ;
+                        "Указва централната нота, към която се стреми произведението"@bg ;
            rdfs:label "centres on"@en ,
                       "центрира се около"@bg .
 
@@ -500,7 +497,11 @@ xsd:gYear rdf:type rdfs:Datatype .
 :flourishedDuring rdf:type owl:ObjectProperty ,
                            owl:AsymmetricProperty ,
                            owl:IrreflexiveProperty ;
-                  rdfs:domain :Tradition ;
+                  rdfs:domain [ rdf:type owl:Class ;
+                                owl:unionOf ( :Person
+                                              :Tradition
+                                            )
+                              ] ;
                   rdfs:range :HistoricalPeriod ;
                   rdfs:comment "Links a tradition or person to their period of greatest influence."@en ;
                   rdfs:label "flourished during"@en ,
@@ -554,6 +555,30 @@ xsd:gYear rdf:type rdfs:Datatype .
                                "има алтернативен текст"@bg .
 
 
+###  http://www.paralagia.bg/ontology/vizantiiska-muzika#hasApechema
+:hasApechema rdf:type owl:ObjectProperty ,
+                      owl:FunctionalProperty ;
+             rdfs:domain :Mode ;
+             rdfs:range :Apechema ;
+             rdfs:label "има апихима"@bg .
+
+
+###  http://www.paralagia.bg/ontology/vizantiiska-muzika#hasAscendingFormula
+:hasAscendingFormula rdf:type owl:ObjectProperty ,
+                              owl:FunctionalProperty ;
+                     rdfs:domain :Mode ;
+                     rdfs:range :MelodicFormula ;
+                     rdfs:label "има възходящ оборот"@bg .
+
+
+###  http://www.paralagia.bg/ontology/vizantiiska-muzika#hasCadentialFormula
+:hasCadentialFormula rdf:type owl:ObjectProperty ,
+                              owl:FunctionalProperty ;
+                     rdfs:domain :Mode ;
+                     rdfs:range :CadentialFormula ;
+                     rdfs:label "има каданс"@bg .
+
+
 ###  http://www.paralagia.bg/ontology/vizantiiska-muzika#hasDerivative
 :hasDerivative rdf:type owl:ObjectProperty ,
                         owl:AsymmetricProperty ,
@@ -563,6 +588,14 @@ xsd:gYear rdf:type rdfs:Datatype .
                rdfs:comment "Свързва оригинал с производна версия или адаптация."@bg ;
                rdfs:label "has derivative"@en ,
                           "има производна форма"@bg .
+
+
+###  http://www.paralagia.bg/ontology/vizantiiska-muzika#hasDescendingFormula
+:hasDescendingFormula rdf:type owl:ObjectProperty ,
+                               owl:FunctionalProperty ;
+                      rdfs:domain :Mode ;
+                      rdfs:range :MelodicFormula ;
+                      rdfs:label "има низходящ оборот"@bg .
 
 
 ###  http://www.paralagia.bg/ontology/vizantiiska-muzika#hasFinal
@@ -619,6 +652,13 @@ xsd:gYear rdf:type rdfs:Datatype .
                                "Свързва музикална нота (MIDI нота) със стъпката (Νη, Πα, Βου, Γα, Δη, Κε, Ζω), към която тя принадлежи в системата на осмогласието."@bg ;
                   rdfs:label "has paralagia step"@en ,
                              "има стъпка"@bg .
+
+
+###  http://www.paralagia.bg/ontology/vizantiiska-muzika#hasStep
+:hasStep rdf:type owl:ObjectProperty ;
+         rdfs:domain :MelodicFormula ;
+         rdfs:range :PatternStep ;
+         rdfs:label "има стъпка"@bg .
 
 
 ###  http://www.paralagia.bg/ontology/vizantiiska-muzika#hasSuccessor
@@ -1159,6 +1199,14 @@ xsd:gYear rdf:type rdfs:Datatype .
                             "мелодично сходен с"@bg .
 
 
+###  http://www.paralagia.bg/ontology/vizantiiska-muzika#stepNeume
+:stepNeume rdf:type owl:ObjectProperty ,
+                    owl:FunctionalProperty ;
+           rdfs:domain :PatternStep ;
+           rdfs:range :Neume ;
+           rdfs:label "невмата на стъпката"@bg .
+
+
 ###  http://www.paralagia.bg/ontology/vizantiiska-muzika#studentOf
 :studentOf rdf:type owl:ObjectProperty ;
            rdfs:subPropertyOf :influencedBy ;
@@ -1347,7 +1395,11 @@ xsd:gYear rdf:type rdfs:Datatype .
 
 ###  http://www.paralagia.bg/ontology/vizantiiska-muzika#apechemaSyllables
 :apechemaSyllables rdf:type owl:DatatypeProperty ;
-                   rdfs:domain :Mode ;
+                   rdfs:domain [ rdf:type owl:Class ;
+                                 owl:unionOf ( :Apechema
+                                               :Mode
+                                             )
+                               ] ;
                    rdfs:range xsd:string ;
                    rdfs:comment "Оборотът, изпяван преди песнопението, за да установи гласа."@bg .
 
@@ -1562,6 +1614,14 @@ xsd:gYear rdf:type rdfs:Datatype .
                       "пореден номер на стъпката"@bg .
 
 
+###  http://www.paralagia.bg/ontology/vizantiiska-muzika#stepPosition
+:stepPosition rdf:type owl:DatatypeProperty ,
+                       owl:FunctionalProperty ;
+              rdfs:domain :PatternStep ;
+              rdfs:range xsd:integer ;
+              rdfs:label "място в оборота"@bg .
+
+
 ###  http://www.paralagia.bg/ontology/vizantiiska-muzika#tetrachordIntervals
 :tetrachordIntervals rdf:type owl:DatatypeProperty ,
                               owl:FunctionalProperty ;
@@ -1603,7 +1663,8 @@ xsd:gYear rdf:type rdfs:Datatype .
 :Akolouthia rdf:type owl:Class ;
             owl:equivalentClass :LiturgicalService ;
             rdfs:comment "Akolouthia (ακολουθια) is the Greek term for a liturgical service — equivalent to LiturgicalService."@en ;
-            rdfs:label "Akolouthia"@en .
+            rdfs:label "Akolouthia"@en ,
+                       "Акoлутия (певческо последование)"@bg .
 
 
 ###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Alleluia
@@ -1637,16 +1698,12 @@ xsd:gYear rdf:type rdfs:Datatype .
                      "Антифон"@bg .
 
 
-###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Apostrophos
-:Apostrophos rdf:type owl:Class ;
-             rdfs:subClassOf :BodyNeume ;
-             owl:disjointWith :Chamili ,
-                              :Elaphron ,
-                              :Hyporroe ,
-                              :Hypsili ,
-                              :Ison ,
-                              :Kentima ,
-                              :Oligon .
+###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Apechema
+:Apechema rdf:type owl:Class ;
+          rdfs:comment "Краткият напев, с който се дава тонът преди пеенето на гласа."@bg ,
+                       "Апехема и апихима - дублетни форми" ;
+          rdfs:label "Apechema"@en ,
+                     "Апихима"@bg .
 
 
 ###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Archive
@@ -1655,17 +1712,12 @@ xsd:gYear rdf:type rdfs:Datatype .
          owl:disjointWith :Institution ,
                           :Library ;
          rdfs:comment "A physical or digital archive holding manuscripts or recordings."@en ;
-         rdfs:label "Archive"@en .
+         rdfs:label "Archive"@en ,
+                    "Архив"@bg .
 
 
 ###  http://www.paralagia.bg/ontology/vizantiiska-muzika#AthoniteTradition
-:AthoniteTradition rdf:type owl:Class ;
-                   rdfs:subClassOf :ChantingSchool ;
-                   owl:disjointWith :BulgarianChantingTradition ,
-                                    :ConstantinopolitanSchool ,
-                                    :EasternOrthodoxTradition ;
-                   rdfs:label "Athonite tradition"@en ,
-                              "Света Гора (атонска традиция)"@bg .
+:AthoniteTradition rdf:type owl:Class .
 
 
 ###  http://www.paralagia.bg/ontology/vizantiiska-muzika#AuthenticMode
@@ -1700,21 +1752,16 @@ xsd:gYear rdf:type rdfs:Datatype .
 
 
 ###  http://www.paralagia.bg/ontology/vizantiiska-muzika#BulgarianChantingTradition
-:BulgarianChantingTradition rdf:type owl:Class ;
-                            rdfs:subClassOf :ChantingSchool ;
-                            owl:disjointWith :ConstantinopolitanSchool ,
-                                             :EasternOrthodoxTradition ;
-                            rdfs:label "Bulgarian chanting tradition"@en ,
-                                       "Българска певческа традиция"@bg .
+:BulgarianChantingTradition rdf:type owl:Class .
 
 
 ###  http://www.paralagia.bg/ontology/vizantiiska-muzika#CadentialFormula
 :CadentialFormula rdf:type owl:Class ;
                   rdfs:subClassOf :MelodicFormula ;
-                  rdfs:comment "Невматична последователност, с която завършва мелодична фраза; довежда до финалния тон на гласа."@bg ;
+                  rdfs:comment "последователност, с която завършва мелодична фраза; довежда до финалния тон на гласа."@bg ;
                   rdfs:label "Cadential Formula"@en ,
                              "Φόρμουλα κατακλείδος"@el ,
-                             "Каданс формула"@bg .
+                             "Кадансова формула"@bg .
 
 
 ###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Canon
@@ -1732,19 +1779,10 @@ xsd:gYear rdf:type rdfs:Datatype .
                   "Канон"@bg .
 
 
-###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Chamili
-:Chamili rdf:type owl:Class ;
-         rdfs:subClassOf :BodyNeume ;
-         owl:disjointWith :Elaphron ,
-                          :Hyporroe ,
-                          :Hypsili ,
-                          :Ison ,
-                          :Kentima ,
-                          :Oligon .
-
-
 ###  http://www.paralagia.bg/ontology/vizantiiska-muzika#ChantStyle
-:ChantStyle rdf:type owl:Class .
+:ChantStyle rdf:type owl:Class ;
+            rdfs:label "Chant style"@en ,
+                       "Стил на песнопението"@bg .
 
 
 ###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Chanter
@@ -1822,16 +1860,12 @@ xsd:gYear rdf:type rdfs:Datatype .
           rdfs:subClassOf :Person ;
           owl:disjointWith :Ensemble ;
           rdfs:comment "A person who creates the MELODY of liturgical music. Distinct from Hymnographer (who writes the text), though historically the same person often did both. A Composer may also be a Hymnographer but this is not always the case."@en ;
-          rdfs:label "Composer"@en .
+          rdfs:label "Composer"@en ,
+                     "Съставител на песнопения"@bg .
 
 
 ###  http://www.paralagia.bg/ontology/vizantiiska-muzika#ConstantinopolitanSchool
-:ConstantinopolitanSchool rdf:type owl:Class ;
-                          rdfs:subClassOf :ChantingSchool ;
-                          owl:disjointWith :EasternOrthodoxTradition ;
-                          rdfs:comment "Главна певческа школа на Вселенската патриаршия в Константинопол, носителка на класическата византийска традиция."@bg ;
-                          rdfs:label "Constantinopolitan School"@en ,
-                                     "Константинополска певческа школа"@bg .
+:ConstantinopolitanSchool rdf:type owl:Class .
 
 
 ###  http://www.paralagia.bg/ontology/vizantiiska-muzika#DiatonicNote
@@ -1849,13 +1883,6 @@ xsd:gYear rdf:type rdfs:Datatype .
                            "Нота, принадлежаща към диатоничната солфежна скала (Νη, Πα, Βου, Γα, Δη, Κε, Ζω). Reasoner-ът я извежда автоматично чрез GCI: МузикалнаНота ∩ (еОсновнаНота стойност true) → ДиатоничнаНота."@bg ;
               rdfs:label "Diatonic Note"@en ,
                          "Диатонична нота"@bg .
-
-[ rdf:type owl:Axiom ;
-   owl:annotatedSource :ChromaticNote ;
-   owl:annotatedProperty owl:disjointWith ;
-   owl:annotatedTarget :DiatonicNote ;
-   rdfs:comment "Диатоничните и хроматичните ноти са несъвместими подкласове на МузикалнаНота: нота с еОсновнаНота=true не може да е хроматична и обратното."@bg
- ] .
 
 
 ###  http://www.paralagia.bg/ontology/vizantiiska-muzika#DiatonicScale
@@ -1891,7 +1918,8 @@ xsd:gYear rdf:type rdfs:Datatype .
                            :Person ,
                            :Tradition ;
           rdfs:comment "A written, printed, or digital resource — manuscript, publication, scholarly work, or source text."@en ;
-          rdfs:label "Document"@en .
+          rdfs:label "Document"@en ,
+                     "Документ"@bg .
 
 
 ###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Domestikos
@@ -1915,27 +1943,15 @@ xsd:gYear rdf:type rdfs:Datatype .
 
 
 ###  http://www.paralagia.bg/ontology/vizantiiska-muzika#EasternOrthodoxTradition
-:EasternOrthodoxTradition rdf:type owl:Class ;
-                          rdfs:subClassOf :ChantingSchool ;
-                          rdfs:comment "The broader Eastern Orthodox Christian chanting tradition encompassing all regional schools."@en ;
-                          rdfs:label "Eastern Orthodox Tradition"@en .
+:EasternOrthodoxTradition rdf:type owl:Class .
 
 
 ###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Echos
 :Echos rdf:type owl:Class ;
        owl:equivalentClass :Mode ;
        rdfs:comment "Echos (ηχος) is the Greek term for Mode — equivalent classes."@en ;
-       rdfs:label "Echos"@en .
-
-
-###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Elaphron
-:Elaphron rdf:type owl:Class ;
-          rdfs:subClassOf :BodyNeume ;
-          owl:disjointWith :Hyporroe ,
-                           :Hypsili ,
-                           :Ison ,
-                           :Kentima ,
-                           :Oligon .
+       rdfs:label "Echos"@en ,
+                  "Глас"@bg .
 
 
 ###  http://www.paralagia.bg/ontology/vizantiiska-muzika#EnharmonicScale
@@ -1954,7 +1970,8 @@ xsd:gYear rdf:type rdfs:Datatype .
                            :Saint ,
                            :Scholar ;
           rdfs:comment "A group of chanters or musicians performing together."@en ;
-          rdfs:label "Ensemble"@en .
+          rdfs:label "Ensemble"@en ,
+                     "Певческа група"@bg .
 
 
 ###  http://www.paralagia.bg/ontology/vizantiiska-muzika#EthosQuality
@@ -1969,7 +1986,8 @@ xsd:gYear rdf:type rdfs:Datatype .
                                :ParalagiaStep ,
                                :Scale ;
               rdfs:comment "The spiritual or emotional quality (ethos) associated with a mode or hymn."@en ;
-              rdfs:label "Ethos Quality"@en .
+              rdfs:label "Ethos Quality"@en ,
+                         "Нравствено въздействие"@bg .
 
 
 ###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Event
@@ -1983,14 +2001,16 @@ xsd:gYear rdf:type rdfs:Datatype .
                         :Person ,
                         :Tradition ;
        rdfs:comment "A temporal occurrence such as a liturgical performance or recording session."@en ;
-       rdfs:label "Event"@en .
+       rdfs:label "Event"@en ,
+                  "Събитие"@bg .
 
 
 ###  http://www.paralagia.bg/ontology/vizantiiska-muzika#FeastDay
 :FeastDay rdf:type owl:Class ;
           rdfs:subClassOf :LiturgicalCycle ;
           rdfs:comment "A liturgical feast day in the Orthodox calendar."@en ;
-          rdfs:label "Feast Day"@en .
+          rdfs:label "Feast Day"@en ,
+                     "Църковен празник"@bg .
 
 
 ###  http://www.paralagia.bg/ontology/vizantiiska-muzika#HardChromaticScale
@@ -2060,23 +2080,6 @@ xsd:gYear rdf:type rdfs:Datatype .
                          "Мелодописец"@bg .
 
 
-###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Hyporroe
-:Hyporroe rdf:type owl:Class ;
-          rdfs:subClassOf :BodyNeume ;
-          owl:disjointWith :Hypsili ,
-                           :Ison ,
-                           :Kentima ,
-                           :Oligon .
-
-
-###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Hypsili
-:Hypsili rdf:type owl:Class ;
-         rdfs:subClassOf :BodyNeume ;
-         owl:disjointWith :Ison ,
-                          :Kentima ,
-                          :Oligon .
-
-
 ###  http://www.paralagia.bg/ontology/vizantiiska-muzika#InitialFormula
 :InitialFormula rdf:type owl:Class ;
                 rdfs:subClassOf :MelodicFormula ;
@@ -2091,7 +2094,8 @@ xsd:gYear rdf:type rdfs:Datatype .
              rdfs:subClassOf :Organization ;
              owl:disjointWith :Library ;
              rdfs:comment "A church, monastery, or institution associated with a chanting tradition."@en ;
-             rdfs:label "Institution"@en .
+             rdfs:label "Institution"@en ,
+                        "Учреждение"@bg .
 
 
 ###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Interval
@@ -2126,48 +2130,13 @@ xsd:gYear rdf:type rdfs:Datatype .
 :Ison rdf:type owl:Class ;
       rdfs:subClassOf :BodyNeume ,
                       :MusicalElement ;
-      owl:disjointWith :Kentima ,
-                       :Oligon ;
       :greekName "Ἴσον" ;
       rdfs:comment "Unison — stays on the same pitch."@en ,
                    "Исон – повторен тон; без движение нагоре или надолу."@bg ,
-                   "Продължителен задържан тон (бурдон), пеян от вторите певци, докато главният псалт изпълнява мелодията. Характерна черта на православното пеене."@bg ;
+                   "Продължителен задържан тон (бурдон), пят от вторите певци, докато главният псалт изпълнява мелодията. Характерна черта на православното пеене."@bg ;
       rdfs:label "Ison (Drone)"@en ,
                  "Исон (бурдон)"@bg ,
                  "Ἴσον"@el .
-
-
-###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Kentima
-:Kentima rdf:type owl:Class ;
-         rdfs:subClassOf :BodyNeume ;
-         owl:disjointWith :Oligon .
-
-
-###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Kentimata
-:Kentimata rdf:type owl:Class ;
-           rdfs:subClassOf :BodyNeume ;
-           owl:disjointWith :Apostrophos ,
-                            :Chamili ,
-                            :Elaphron ,
-                            :Hyporroe ,
-                            :Hypsili ,
-                            :Ison ,
-                            :Kentima ,
-                            :Oligon ,
-                            :Petasti .
-
-
-###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Petasti
-:Petasti rdf:type owl:Class ;
-         rdfs:subClassOf :BodyNeume ;
-         owl:disjointWith :Apostrophos ,
-                          :Chamili ,
-                          :Elaphron ,
-                          :Hyporroe ,
-                          :Hypsili ,
-                          :Ison ,
-                          :Kentima ,
-                          :Oligon .
 
 
 ###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Kontakion
@@ -2187,7 +2156,8 @@ xsd:gYear rdf:type rdfs:Datatype .
 :Library rdf:type owl:Class ;
          rdfs:subClassOf :Organization ;
          rdfs:comment "A library holding liturgical manuscripts or books."@en ;
-         rdfs:label "Library"@en .
+         rdfs:label "Library"@en ,
+                    "Библиотека"@bg .
 
 
 ###  http://www.paralagia.bg/ontology/vizantiiska-muzika#LiturgicalBook
@@ -2208,7 +2178,8 @@ xsd:gYear rdf:type rdfs:Datatype .
                  rdfs:subClassOf :Tradition ;
                  owl:disjointWith :LiturgicalService ;
                  rdfs:comment "A cycle of liturgical services, e.g. the weekly or yearly cycle."@en ;
-                 rdfs:label "Liturgical Cycle"@en .
+                 rdfs:label "Liturgical Cycle"@en ,
+                            "Богослужебен кръг"@bg .
 
 
 ###  http://www.paralagia.bg/ontology/vizantiiska-muzika#LiturgicalService
@@ -2237,7 +2208,8 @@ xsd:gYear rdf:type rdfs:Datatype .
                            :Person ,
                            :Tradition ;
           rdfs:comment "A geographical location associated with a tradition or manuscript."@en ;
-          rdfs:label "Location"@en .
+          rdfs:label "Location"@en ,
+                     "Място"@bg .
 
 
 ###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Manuscript
@@ -2262,7 +2234,8 @@ xsd:gYear rdf:type rdfs:Datatype .
                                    :Source ,
                                    :Text ;
                   rdfs:comment "A source manuscript used as the basis for a modern edition — equivalent to Manuscript."@en ;
-                  rdfs:label "Manuscript Source"@en .
+                  rdfs:label "Manuscript Source"@en ,
+                             "Ръкописен извор"@bg .
 
 
 ###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Martyria
@@ -2359,7 +2332,8 @@ xsd:gYear rdf:type rdfs:Datatype .
                            :Phthora ,
                            :RhythmicNeume ;
           rdfs:comment "A neume or sign that modifies the pitch or rhythm of another neume."@en ;
-          rdfs:label "Modifier"@en .
+          rdfs:label "Modifier"@en ,
+                     "Изменителен знак"@bg .
 
 
 ###  http://www.paralagia.bg/ontology/vizantiiska-muzika#MusicalElement
@@ -2400,7 +2374,8 @@ xsd:gYear rdf:type rdfs:Datatype .
                               :ParalagiaStep ,
                               :Scale ;
              rdfs:comment "A distinct musical work or composition in the Byzantine tradition."@en ;
-             rdfs:label "Musical Work"@en .
+             rdfs:label "Musical Work"@en ,
+                        "Музикално произведение"@bg .
 
 
 ###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Neume
@@ -2458,17 +2433,13 @@ xsd:gYear rdf:type rdfs:Datatype .
                       "Октоих"@bg .
 
 
-###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Oligon
-:Oligon rdf:type owl:Class ;
-        rdfs:subClassOf :BodyNeume .
-
-
 ###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Organization
 :Organization rdf:type owl:Class ;
               owl:disjointWith :Person ,
                                :Tradition ;
               rdfs:comment "An institution, archive, library, or other organization related to Byzantine music."@en ;
-              rdfs:label "Organization"@en .
+              rdfs:label "Organization"@en ,
+                         "Организация"@bg .
 
 
 ###  http://www.paralagia.bg/ontology/vizantiiska-muzika#OrnamentalNeume
@@ -2490,10 +2461,16 @@ xsd:gYear rdf:type rdfs:Datatype .
                           ) ;
                :greekName "Φωνή παραλλαγής" ;
                rdfs:comment "One of the seven steps of the Byzantine Paralagia (solfege) scale: Ni, Pa, Vu, Ga, Di, Ke, Zo."@en ,
-                            "Една от седемте стъпки на солфежната скала в православното византийско пеене по реформата на Хрисант Мадитски (1814): Νη, Πα, Βου, Γα, Δη, Κε, Ζω. Паралагията е метод за учене и изпяване на мелодии по назоваване на стъпките."@bg ,
-                            "Ключово свойство: два индивида от ПаралагийскаСтъпка с еднаква паралагийскаСричка (напр. „Νη\") са идентични."@bg ;
+                            "Една от седемте стъпки на солфежната скала в православното византийско пеене по реформата на Хрисант Мадитски (1814): Νη, Πα, Βου, Γα, Δη, Κε, Ζω. Паралагията е метод за учене и изпяване на мелодии по назоваване на стъпките."@bg ;
                rdfs:label "Paralagia Step (Byzantine Scale Degree)"@en ,
                           "Стъпка"@bg .
+
+
+###  http://www.paralagia.bg/ontology/vizantiiska-muzika#PatternStep
+:PatternStep rdf:type owl:Class ;
+             rdfs:comment "Едно място в оборота: коя невма и коя поред е тя."@bg ;
+             rdfs:label "Pattern step"@en ,
+                        "Стъпка в оборот"@bg .
 
 
 ###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Pentekostarion
@@ -2511,12 +2488,15 @@ xsd:gYear rdf:type rdfs:Datatype .
              rdfs:subClassOf :Event ;
              owl:disjointWith :Recording ;
              rdfs:comment "A liturgical performance or chanting event."@en ;
-             rdfs:label "Performance"@en .
+             rdfs:label "Performance"@en ,
+                        "Изпълнение"@bg .
 
 
 ###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Person
 :Person rdf:type owl:Class ;
-        owl:disjointWith :Tradition .
+        owl:disjointWith :Tradition ;
+        rdfs:label "Person"@en ,
+                   "Личност"@bg .
 
 
 ###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Phthora
@@ -2536,13 +2516,6 @@ xsd:gYear rdf:type rdfs:Datatype .
             rdfs:comment "Производен (плагален) глас от осмогласната система. Включва гласове 5 (πλ. α΄), 6 (πλ. β΄), 7 (βαρύς) и 8 (πλ. δ΄)."@bg ;
             rdfs:label "Plagal Mode"@en ,
                        "Плагален глас"@bg .
-
-[ rdf:type owl:Axiom ;
-   owl:annotatedSource :AuthenticMode ;
-   owl:annotatedProperty owl:disjointWith ;
-   owl:annotatedTarget :PlagalMode ;
-   rdfs:comment "Автентичните и плагалните гласове са два несъвместими вида от осмогласната система."@bg
- ] .
 
 
 ###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Prokeimenon
@@ -2572,14 +2545,16 @@ xsd:gYear rdf:type rdfs:Datatype .
                               :Source ,
                               :Text ;
              rdfs:comment "A published edition or scholarly publication of Byzantine music."@en ;
-             rdfs:label "Publication"@en .
+             rdfs:label "Publication"@en ,
+                        "Издание"@bg .
 
 
 ###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Recording
 :Recording rdf:type owl:Class ;
            rdfs:subClassOf :Event ;
            rdfs:comment "An audio or video recording of Byzantine chant."@en ;
-           rdfs:label "Recording"@en .
+           rdfs:label "Recording"@en ,
+                      "Звукозапис"@bg .
 
 
 ###  http://www.paralagia.bg/ontology/vizantiiska-muzika#RhythmicNeume
@@ -2595,7 +2570,8 @@ xsd:gYear rdf:type rdfs:Datatype .
 :Saint rdf:type owl:Class ;
        rdfs:subClassOf :Person ;
        rdfs:comment "An Orthodox Christian saint venerated in the liturgical calendar."@en ;
-       rdfs:label "Saint"@en .
+       rdfs:label "Saint"@en ,
+                  "Светец"@bg .
 
 
 ###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Scale
@@ -2620,7 +2596,8 @@ xsd:gYear rdf:type rdfs:Datatype .
 :Scholar rdf:type owl:Class ;
          rdfs:subClassOf :Person ;
          rdfs:comment "A musicologist or scholar specialising in Byzantine music."@en ;
-         rdfs:label "Scholar"@en .
+         rdfs:label "Scholar"@en ,
+                    "Учен"@bg .
 
 
 ###  http://www.paralagia.bg/ontology/vizantiiska-muzika#ScholarlyWork
@@ -2629,13 +2606,15 @@ xsd:gYear rdf:type rdfs:Datatype .
                owl:disjointWith :Source ,
                                 :Text ;
                rdfs:comment "A scholarly article, book, or thesis on Byzantine music."@en ;
-               rdfs:label "Scholarly Work"@en .
+               rdfs:label "Scholarly Work"@en ,
+                          "Научен труд"@bg .
 
 
 ###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Service
 :Service rdf:type owl:Class ;
          rdfs:comment "Service and LiturgicalService denote the same concept."@en ;
-         rdfs:label "Service"@en .
+         rdfs:label "Service"@en ,
+                    "Богослужение"@bg .
 
 
 ###  http://www.paralagia.bg/ontology/vizantiiska-muzika#SoftChromaticScale
@@ -2652,7 +2631,8 @@ xsd:gYear rdf:type rdfs:Datatype .
         rdfs:subClassOf :Document ;
         owl:disjointWith :Text ;
         rdfs:comment "A primary or secondary source document or manuscript."@en ;
-        rdfs:label "Source"@en .
+        rdfs:label "Source"@en ,
+                   "Извор"@bg .
 
 
 ###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Sticheron
@@ -2670,13 +2650,15 @@ xsd:gYear rdf:type rdfs:Datatype .
 :Text rdf:type owl:Class ;
       rdfs:subClassOf :Document ;
       rdfs:comment "The textual content of a hymn or liturgical poem."@en ;
-      rdfs:label "Text"@en .
+      rdfs:label "Text"@en ,
+                 "Текст"@bg .
 
 
 ###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Tradition
 :Tradition rdf:type owl:Class ;
            rdfs:comment "A liturgical, chanting, or musical tradition within Orthodox Christianity."@en ;
-           rdfs:label "Tradition"@en .
+           rdfs:label "Tradition"@en ,
+                      "Традиция"@bg .
 
 
 ###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Triodion
@@ -2978,6 +2960,63 @@ xsd:gYear rdf:type rdfs:Datatype .
                        "Ἀντικένωμα"@el .
 
 
+###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Apechema1
+:Apechema1 rdf:type owl:NamedIndividual ,
+                    :Apechema ;
+           :apechemaSyllables "Ἄνανες" ;
+           rdfs:label "Апихима на първи глас"@bg .
+
+
+###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Apechema2
+:Apechema2 rdf:type owl:NamedIndividual ,
+                    :Apechema ;
+           :apechemaSyllables "Νεανες" ;
+           rdfs:label "Апихима на втори глас"@bg .
+
+
+###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Apechema3
+:Apechema3 rdf:type owl:NamedIndividual ,
+                    :Apechema ;
+           :apechemaSyllables "Νανα" ;
+           rdfs:label "Апихима на трети глас"@bg .
+
+
+###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Apechema4
+:Apechema4 rdf:type owl:NamedIndividual ,
+                    :Apechema ;
+           :apechemaSyllables "Ἅγια" ;
+           rdfs:label "Апихима на четвърти глас"@bg .
+
+
+###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Apechema5
+:Apechema5 rdf:type owl:NamedIndividual ,
+                    :Apechema ;
+           :apechemaSyllables "Ἀνεανες" ;
+           rdfs:label "Апихима на пети глас"@bg .
+
+
+###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Apechema6
+:Apechema6 rdf:type owl:NamedIndividual ,
+                    :Apechema ;
+           :apechemaSyllables "Νεχεανες" ;
+           rdfs:label "Апихима на шести глас"@bg .
+
+
+###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Apechema7
+:Apechema7 rdf:type owl:NamedIndividual ,
+                    :Apechema ;
+           :apechemaSyllables "Ἄανες" ;
+           rdfs:comment "Утвърденият вид е Ἄανες, с две алфи. Съкратеното Ἄνες също се среща, но не е основният вид. Средновековният списък на Аврелиан Реомски дава anes."@bg ;
+           rdfs:label "Апихима на седми глас"@bg .
+
+
+###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Apechema8
+:Apechema8 rdf:type owl:NamedIndividual ,
+                    :Apechema ;
+           :apechemaSyllables "Νεαγιε" ;
+           rdfs:label "Апихима на осми глас"@bg .
+
+
 ###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Apli
 :Apli rdf:type owl:NamedIndividual ,
                :RhythmicNeume ;
@@ -2995,7 +3034,275 @@ xsd:gYear rdf:type rdfs:Datatype .
              :representsStep :StepNi ;
              :description "Движение надолу с една стъпка; по-бавно от ипорроé."@bg ;
              :intervalSemitones -2 ;
-             :intervalValue -1 .
+             :intervalValue -1 ;
+             :greekName "Ἀπόστροφος" ;
+             :hasImageData "images/sign_apostrophos.png" ;
+             rdfs:comment "One step down."@en ,
+                          "Апострофос – основна низходяща невма; движение с една стъпка надолу. Интервал: −1."@bg ,
+                          "Апострофос – стъпка надолу; основна низходяща невма (−1)."@bg ;
+             rdfs:label "Apostrophos (one step down)"@en ,
+                        "Апострофос (стъпка надолу)"@bg ,
+                        "Ἀπόστροφος"@el .
+
+
+###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Ascent1
+:Ascent1 rdf:type owl:NamedIndividual ,
+                  :MelodicFormula ;
+         :hasStep :Ascent1_Step1 ,
+                  :Ascent1_Step2 ,
+                  :Ascent1_Step3 ;
+         rdfs:comment "Oligon–Oligon–Oligon (стъпки нагоре)"@bg ;
+         rdfs:label "Възходящ оборот на първи глас"@bg .
+
+
+###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Ascent1_Step1
+:Ascent1_Step1 rdf:type owl:NamedIndividual ,
+                        :PatternStep ;
+               :stepNeume :Oligon ;
+               :stepPosition 1 ;
+               rdfs:label "1. олигон"@bg .
+
+
+###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Ascent1_Step2
+:Ascent1_Step2 rdf:type owl:NamedIndividual ,
+                        :PatternStep ;
+               :stepNeume :Oligon ;
+               :stepPosition 2 ;
+               rdfs:label "2. олигон"@bg .
+
+
+###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Ascent1_Step3
+:Ascent1_Step3 rdf:type owl:NamedIndividual ,
+                        :PatternStep ;
+               :stepNeume :Oligon ;
+               :stepPosition 3 ;
+               rdfs:label "3. олигон"@bg .
+
+
+###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Ascent2
+:Ascent2 rdf:type owl:NamedIndividual ,
+                  :MelodicFormula ;
+         :hasStep :Ascent2_Step1 ,
+                  :Ascent2_Step2 ,
+                  :Ascent2_Step3 ;
+         rdfs:comment "Oligon–Kentima–Oligon (с хроматичен цвят)"@bg ;
+         rdfs:label "Възходящ оборот на втори глас"@bg .
+
+
+###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Ascent2_Step1
+:Ascent2_Step1 rdf:type owl:NamedIndividual ,
+                        :PatternStep ;
+               :stepNeume :Oligon ;
+               :stepPosition 1 ;
+               rdfs:label "1. олигон"@bg .
+
+
+###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Ascent2_Step2
+:Ascent2_Step2 rdf:type owl:NamedIndividual ,
+                        :PatternStep ;
+               :stepNeume :Kentima ;
+               :stepPosition 2 ;
+               rdfs:label "2. кентима"@bg .
+
+
+###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Ascent2_Step3
+:Ascent2_Step3 rdf:type owl:NamedIndividual ,
+                        :PatternStep ;
+               :stepNeume :Oligon ;
+               :stepPosition 3 ;
+               rdfs:label "3. олигон"@bg .
+
+
+###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Ascent3
+:Ascent3 rdf:type owl:NamedIndividual ,
+                  :MelodicFormula ;
+         :hasStep :Ascent3_Step1 ,
+                  :Ascent3_Step2 ,
+                  :Ascent3_Step3 ;
+         rdfs:comment "Oligon–Oligon–Kentima"@bg ;
+         rdfs:label "Възходящ оборот на трети глас"@bg .
+
+
+###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Ascent3_Step1
+:Ascent3_Step1 rdf:type owl:NamedIndividual ,
+                        :PatternStep ;
+               :stepNeume :Oligon ;
+               :stepPosition 1 ;
+               rdfs:label "1. олигон"@bg .
+
+
+###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Ascent3_Step2
+:Ascent3_Step2 rdf:type owl:NamedIndividual ,
+                        :PatternStep ;
+               :stepNeume :Oligon ;
+               :stepPosition 2 ;
+               rdfs:label "2. олигон"@bg .
+
+
+###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Ascent3_Step3
+:Ascent3_Step3 rdf:type owl:NamedIndividual ,
+                        :PatternStep ;
+               :stepNeume :Kentima ;
+               :stepPosition 3 ;
+               rdfs:label "3. кентима"@bg .
+
+
+###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Ascent4
+:Ascent4 rdf:type owl:NamedIndividual ,
+                  :MelodicFormula ;
+         :hasStep :Ascent4_Step1 ,
+                  :Ascent4_Step2 ,
+                  :Ascent4_Step3 ;
+         rdfs:comment "Oligon–Oligon–Oligon"@bg ;
+         rdfs:label "Възходящ оборот на четвърти глас"@bg .
+
+
+###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Ascent4_Step1
+:Ascent4_Step1 rdf:type owl:NamedIndividual ,
+                        :PatternStep ;
+               :stepNeume :Oligon ;
+               :stepPosition 1 ;
+               rdfs:label "1. олигон"@bg .
+
+
+###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Ascent4_Step2
+:Ascent4_Step2 rdf:type owl:NamedIndividual ,
+                        :PatternStep ;
+               :stepNeume :Oligon ;
+               :stepPosition 2 ;
+               rdfs:label "2. олигон"@bg .
+
+
+###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Ascent4_Step3
+:Ascent4_Step3 rdf:type owl:NamedIndividual ,
+                        :PatternStep ;
+               :stepNeume :Oligon ;
+               :stepPosition 3 ;
+               rdfs:label "3. олигон"@bg .
+
+
+###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Ascent5
+:Ascent5 rdf:type owl:NamedIndividual ,
+                  :MelodicFormula ;
+         :hasStep :Ascent5_Step1 ,
+                  :Ascent5_Step2 ,
+                  :Ascent5_Step3 ;
+         rdfs:comment "Oligon–Kentima–Oligon"@bg ;
+         rdfs:label "Възходящ оборот на пети глас"@bg .
+
+
+###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Ascent5_Step1
+:Ascent5_Step1 rdf:type owl:NamedIndividual ,
+                        :PatternStep ;
+               :stepNeume :Oligon ;
+               :stepPosition 1 ;
+               rdfs:label "1. олигон"@bg .
+
+
+###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Ascent5_Step2
+:Ascent5_Step2 rdf:type owl:NamedIndividual ,
+                        :PatternStep ;
+               :stepNeume :Kentima ;
+               :stepPosition 2 ;
+               rdfs:label "2. кентима"@bg .
+
+
+###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Ascent5_Step3
+:Ascent5_Step3 rdf:type owl:NamedIndividual ,
+                        :PatternStep ;
+               :stepNeume :Oligon ;
+               :stepPosition 3 ;
+               rdfs:label "3. олигон"@bg .
+
+
+###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Ascent6
+:Ascent6 rdf:type owl:NamedIndividual ,
+                  :MelodicFormula ;
+         :hasStep :Ascent6_Step1 ,
+                  :Ascent6_Step2 ;
+         rdfs:comment "Oligon–Kentima (хроматичен скок)"@bg ;
+         rdfs:label "Възходящ оборот на шести глас"@bg .
+
+
+###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Ascent6_Step1
+:Ascent6_Step1 rdf:type owl:NamedIndividual ,
+                        :PatternStep ;
+               :stepNeume :Oligon ;
+               :stepPosition 1 ;
+               rdfs:label "1. олигон"@bg .
+
+
+###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Ascent6_Step2
+:Ascent6_Step2 rdf:type owl:NamedIndividual ,
+                        :PatternStep ;
+               :stepNeume :Kentima ;
+               :stepPosition 2 ;
+               rdfs:label "2. кентима"@bg .
+
+
+###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Ascent7
+:Ascent7 rdf:type owl:NamedIndividual ,
+                  :MelodicFormula ;
+         :hasStep :Ascent7_Step1 ,
+                  :Ascent7_Step2 ;
+         rdfs:comment "Hypsili–Oligon (голям скок нагоре)"@bg ;
+         rdfs:label "Възходящ оборот на седми глас"@bg .
+
+
+###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Ascent7_Step1
+:Ascent7_Step1 rdf:type owl:NamedIndividual ,
+                        :PatternStep ;
+               :stepNeume :Hypsili ;
+               :stepPosition 1 ;
+               rdfs:label "1. ипсили"@bg .
+
+
+###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Ascent7_Step2
+:Ascent7_Step2 rdf:type owl:NamedIndividual ,
+                        :PatternStep ;
+               :stepNeume :Oligon ;
+               :stepPosition 2 ;
+               rdfs:label "2. олигон"@bg .
+
+
+###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Ascent8
+:Ascent8 rdf:type owl:NamedIndividual ,
+                  :MelodicFormula ;
+         :hasStep :Ascent8_Step1 ,
+                  :Ascent8_Step2 ,
+                  :Ascent8_Step3 ;
+         rdfs:comment "Oligon–Oligon–Kentima"@bg ;
+         rdfs:label "Възходящ оборот на осми глас"@bg .
+
+
+###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Ascent8_Step1
+:Ascent8_Step1 rdf:type owl:NamedIndividual ,
+                        :PatternStep ;
+               :stepNeume :Oligon ;
+               :stepPosition 1 ;
+               rdfs:label "1. олигон"@bg .
+
+
+###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Ascent8_Step2
+:Ascent8_Step2 rdf:type owl:NamedIndividual ,
+                        :PatternStep ;
+               :stepNeume :Oligon ;
+               :stepPosition 2 ;
+               rdfs:label "2. олигон"@bg .
+
+
+###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Ascent8_Step3
+:Ascent8_Step3 rdf:type owl:NamedIndividual ,
+                        :PatternStep ;
+               :stepNeume :Kentima ;
+               :stepPosition 3 ;
+               rdfs:label "3. кентима"@bg .
+
+
+###  http://www.paralagia.bg/ontology/vizantiiska-muzika#AthoniteTradition
+:AthoniteTradition rdf:type owl:NamedIndividual ,
+                            :ChantingSchool ;
+                   :description "Певческата традиция на Света Гора: по-бавно, по-украсено пеене, пазено в манастирите на Атон."@bg .
 
 
 ###  http://www.paralagia.bg/ontology/vizantiiska-muzika#B0
@@ -3143,7 +3450,9 @@ xsd:gYear rdf:type rdfs:Datatype .
 
 
 ###  http://www.paralagia.bg/ontology/vizantiiska-muzika#BulgarianChantingTradition
-:BulgarianChantingTradition rdf:type owl:NamedIndividual .
+:BulgarianChantingTradition rdf:type owl:NamedIndividual ,
+                                     :ChantingSchool ;
+                            :description "Българската църковнопевческа традиция: източният напев, пренесен и изпят на църковнославянски и на български."@bg .
 
 
 ###  http://www.paralagia.bg/ontology/vizantiiska-muzika#BulgarianRevivalPeriod
@@ -3302,6 +3611,269 @@ xsd:gYear rdf:type rdfs:Datatype .
                "До 8"@bg .
 
 
+###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Cadence1
+:Cadence1 rdf:type owl:NamedIndividual ,
+                   :CadentialFormula ;
+          :hasStep :Cadence1_Step1 ,
+                   :Cadence1_Step2 ,
+                   :Cadence1_Step3 ;
+          rdfs:comment "Oligon–Apostrophos–Ison (завършва на Πα)"@bg ;
+          rdfs:label "Каданс на първи глас"@bg .
+
+
+###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Cadence1_Step1
+:Cadence1_Step1 rdf:type owl:NamedIndividual ,
+                         :PatternStep ;
+                :stepNeume :Oligon ;
+                :stepPosition 1 ;
+                rdfs:label "1. олигон"@bg .
+
+
+###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Cadence1_Step2
+:Cadence1_Step2 rdf:type owl:NamedIndividual ,
+                         :PatternStep ;
+                :stepNeume :Apostrophos ;
+                :stepPosition 2 ;
+                rdfs:label "2. апострофос"@bg .
+
+
+###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Cadence1_Step3
+:Cadence1_Step3 rdf:type owl:NamedIndividual ,
+                         :PatternStep ;
+                :stepNeume :Ison_neume ;
+                :stepPosition 3 ;
+                rdfs:label "3. исон"@bg .
+
+
+###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Cadence2
+:Cadence2 rdf:type owl:NamedIndividual ,
+                   :CadentialFormula ;
+          :hasStep :Cadence2_Step1 ,
+                   :Cadence2_Step2 ;
+          rdfs:comment "Hyporroe–Ison (завършва на Δη)"@bg ;
+          rdfs:label "Каданс на втори глас"@bg .
+
+
+###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Cadence2_Step1
+:Cadence2_Step1 rdf:type owl:NamedIndividual ,
+                         :PatternStep ;
+                :stepNeume :Hyporroe ;
+                :stepPosition 1 ;
+                rdfs:label "1. ипорроé"@bg .
+
+
+###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Cadence2_Step2
+:Cadence2_Step2 rdf:type owl:NamedIndividual ,
+                         :PatternStep ;
+                :stepNeume :Ison_neume ;
+                :stepPosition 2 ;
+                rdfs:label "2. исон"@bg .
+
+
+###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Cadence3
+:Cadence3 rdf:type owl:NamedIndividual ,
+                   :CadentialFormula ;
+          :hasStep :Cadence3_Step1 ,
+                   :Cadence3_Step2 ,
+                   :Cadence3_Step3 ;
+          rdfs:comment "Apostrophos–Elaphron–Ison (завършва на Γα)"@bg ;
+          rdfs:label "Каданс на трети глас"@bg .
+
+
+###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Cadence3_Step1
+:Cadence3_Step1 rdf:type owl:NamedIndividual ,
+                         :PatternStep ;
+                :stepNeume :Apostrophos ;
+                :stepPosition 1 ;
+                rdfs:label "1. апострофос"@bg .
+
+
+###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Cadence3_Step2
+:Cadence3_Step2 rdf:type owl:NamedIndividual ,
+                         :PatternStep ;
+                :stepNeume :Elaphron ;
+                :stepPosition 2 ;
+                rdfs:label "2. елафрон"@bg .
+
+
+###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Cadence3_Step3
+:Cadence3_Step3 rdf:type owl:NamedIndividual ,
+                         :PatternStep ;
+                :stepNeume :Ison_neume ;
+                :stepPosition 3 ;
+                rdfs:label "3. исон"@bg .
+
+
+###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Cadence4
+:Cadence4 rdf:type owl:NamedIndividual ,
+                   :CadentialFormula ;
+          :hasStep :Cadence4_Step1 ,
+                   :Cadence4_Step2 ,
+                   :Cadence4_Step3 ;
+          rdfs:comment "Oligon–Hyporroe–Ison (завършва на Δη)"@bg ;
+          rdfs:label "Каданс на четвърти глас"@bg .
+
+
+###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Cadence4_Step1
+:Cadence4_Step1 rdf:type owl:NamedIndividual ,
+                         :PatternStep ;
+                :stepNeume :Oligon ;
+                :stepPosition 1 ;
+                rdfs:label "1. олигон"@bg .
+
+
+###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Cadence4_Step2
+:Cadence4_Step2 rdf:type owl:NamedIndividual ,
+                         :PatternStep ;
+                :stepNeume :Hyporroe ;
+                :stepPosition 2 ;
+                rdfs:label "2. ипорроé"@bg .
+
+
+###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Cadence4_Step3
+:Cadence4_Step3 rdf:type owl:NamedIndividual ,
+                         :PatternStep ;
+                :stepNeume :Ison_neume ;
+                :stepPosition 3 ;
+                rdfs:label "3. исон"@bg .
+
+
+###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Cadence5
+:Cadence5 rdf:type owl:NamedIndividual ,
+                   :CadentialFormula ;
+          :hasStep :Cadence5_Step1 ,
+                   :Cadence5_Step2 ,
+                   :Cadence5_Step3 ;
+          rdfs:comment "Apostrophos–Apostrophos–Ison (завършва на Πα)"@bg ;
+          rdfs:label "Каданс на пети глас"@bg .
+
+
+###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Cadence5_Step1
+:Cadence5_Step1 rdf:type owl:NamedIndividual ,
+                         :PatternStep ;
+                :stepNeume :Apostrophos ;
+                :stepPosition 1 ;
+                rdfs:label "1. апострофос"@bg .
+
+
+###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Cadence5_Step2
+:Cadence5_Step2 rdf:type owl:NamedIndividual ,
+                         :PatternStep ;
+                :stepNeume :Apostrophos ;
+                :stepPosition 2 ;
+                rdfs:label "2. апострофос"@bg .
+
+
+###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Cadence5_Step3
+:Cadence5_Step3 rdf:type owl:NamedIndividual ,
+                         :PatternStep ;
+                :stepNeume :Ison_neume ;
+                :stepPosition 3 ;
+                rdfs:label "3. исон"@bg .
+
+
+###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Cadence6
+:Cadence6 rdf:type owl:NamedIndividual ,
+                   :CadentialFormula ;
+          :hasStep :Cadence6_Step1 ,
+                   :Cadence6_Step2 ,
+                   :Cadence6_Step3 ;
+          rdfs:comment "Hyporroe–Apostrophos–Ison (завършва на Πα)"@bg ;
+          rdfs:label "Каданс на шести глас"@bg .
+
+
+###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Cadence6_Step1
+:Cadence6_Step1 rdf:type owl:NamedIndividual ,
+                         :PatternStep ;
+                :stepNeume :Hyporroe ;
+                :stepPosition 1 ;
+                rdfs:label "1. ипорроé"@bg .
+
+
+###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Cadence6_Step2
+:Cadence6_Step2 rdf:type owl:NamedIndividual ,
+                         :PatternStep ;
+                :stepNeume :Apostrophos ;
+                :stepPosition 2 ;
+                rdfs:label "2. апострофос"@bg .
+
+
+###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Cadence6_Step3
+:Cadence6_Step3 rdf:type owl:NamedIndividual ,
+                         :PatternStep ;
+                :stepNeume :Ison_neume ;
+                :stepPosition 3 ;
+                rdfs:label "3. исон"@bg .
+
+
+###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Cadence7
+:Cadence7 rdf:type owl:NamedIndividual ,
+                   :CadentialFormula ;
+          :hasStep :Cadence7_Step1 ,
+                   :Cadence7_Step2 ,
+                   :Cadence7_Step3 ;
+          rdfs:comment "Apostrophos–Elaphron–Ison (завършва на Γα)"@bg ;
+          rdfs:label "Каданс на седми глас"@bg .
+
+
+###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Cadence7_Step1
+:Cadence7_Step1 rdf:type owl:NamedIndividual ,
+                         :PatternStep ;
+                :stepNeume :Apostrophos ;
+                :stepPosition 1 ;
+                rdfs:label "1. апострофос"@bg .
+
+
+###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Cadence7_Step2
+:Cadence7_Step2 rdf:type owl:NamedIndividual ,
+                         :PatternStep ;
+                :stepNeume :Elaphron ;
+                :stepPosition 2 ;
+                rdfs:label "2. елафрон"@bg .
+
+
+###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Cadence7_Step3
+:Cadence7_Step3 rdf:type owl:NamedIndividual ,
+                         :PatternStep ;
+                :stepNeume :Ison_neume ;
+                :stepPosition 3 ;
+                rdfs:label "3. исон"@bg .
+
+
+###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Cadence8
+:Cadence8 rdf:type owl:NamedIndividual ,
+                   :CadentialFormula ;
+          :hasStep :Cadence8_Step1 ,
+                   :Cadence8_Step2 ,
+                   :Cadence8_Step3 ;
+          rdfs:comment "Elaphron–Apostrophos–Ison (завършва на Νη)"@bg ;
+          rdfs:label "Каданс на осми глас"@bg .
+
+
+###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Cadence8_Step1
+:Cadence8_Step1 rdf:type owl:NamedIndividual ,
+                         :PatternStep ;
+                :stepNeume :Elaphron ;
+                :stepPosition 1 ;
+                rdfs:label "1. елафрон"@bg .
+
+
+###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Cadence8_Step2
+:Cadence8_Step2 rdf:type owl:NamedIndividual ,
+                         :PatternStep ;
+                :stepNeume :Apostrophos ;
+                :stepPosition 2 ;
+                rdfs:label "2. апострофос"@bg .
+
+
+###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Cadence8_Step3
+:Cadence8_Step3 rdf:type owl:NamedIndividual ,
+                         :PatternStep ;
+                :stepNeume :Ison_neume ;
+                :stepPosition 3 ;
+                rdfs:label "3. исон"@bg .
+
+
 ###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Cdiez1
 :Cdiez1 rdf:type owl:NamedIndividual ,
                  :ChromaticNote ,
@@ -3404,12 +3976,22 @@ xsd:gYear rdf:type rdfs:Datatype .
 :Chamili rdf:type owl:NamedIndividual ,
                   :BodyNeume ;
          :intervalSemitones -8 ;
-         :intervalValue -4 .
+         :intervalValue -4 ;
+         :greekName "Χαμηλή" ;
+         :hasImageData "images/sign_chamili.png" ;
+         rdfs:comment "Four steps down — large descent."@en ,
+                      "Хамили – голям низходящ скок с четири стъпки (−4)."@bg ,
+                      "Хамили — четири степени надолу."@bg ;
+         rdfs:label "Chamili"@en ,
+                    "Χαμηλή"@el ,
+                    "Хамили"@bg .
 
 
 ###  http://www.paralagia.bg/ontology/vizantiiska-muzika#ChourmouziosChartophylax
 :ChourmouziosChartophylax rdf:type owl:NamedIndividual ,
                                    :Chanter ;
+                          :belongsToSchool :ConstantinopolitanSchool ;
+                          :flourishedDuring :NeoByzantinePeriod ;
                           :birthYear 1770 ;
                           :deathYear 1840 ;
                           rdfs:comment "Chourmouzios Chartophylax. Third reformer of notation in 1814. Transcribed hundreds of manuscripts."@en ,
@@ -3422,6 +4004,12 @@ xsd:gYear rdf:type rdfs:Datatype .
 ###  http://www.paralagia.bg/ontology/vizantiiska-muzika#ChrysanthosOfMadytos
 :ChrysanthosOfMadytos rdf:type owl:NamedIndividual ,
                                :Chanter ;
+                      :belongsToSchool :ConstantinopolitanSchool ;
+                      :collaboratedWith :ChourmouziosChartophylax ,
+                                        :GregoriusProtopsaltis ;
+                      :contemporaryOf :ChourmouziosChartophylax ,
+                                      :GregoriusProtopsaltis ;
+                      :flourishedDuring :NeoByzantinePeriod ;
                       :birthYear 1770 ;
                       :deathYear 1846 ;
                       rdfs:comment "Chrysanthos of Madytos. Reformed Byzantine notation in 1814 with Gregorios and Chourmouzios."@en ,
@@ -3429,6 +4017,12 @@ xsd:gYear rdf:type rdfs:Datatype .
                       rdfs:label "Chrysanthos Of Madytos"@en ,
                                  "Χρύσανθος ὁ ἐκ Μαδύτων"@el ,
                                  "Хрисант Мадитски (ок. 1770–1846)"@bg .
+
+
+###  http://www.paralagia.bg/ontology/vizantiiska-muzika#ConstantinopolitanSchool
+:ConstantinopolitanSchool rdf:type owl:NamedIndividual ,
+                                   :ChantingSchool ;
+                          :description "Главната певческа школа на Вселенската патриаршия в Константинопол, носителка на класическата византийска традиция."@bg .
 
 
 ###  http://www.paralagia.bg/ontology/vizantiiska-muzika#D1
@@ -3655,6 +4249,242 @@ xsd:gYear rdf:type rdfs:Datatype .
                    "Ре-диез 7"@bg .
 
 
+###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Descent1
+:Descent1 rdf:type owl:NamedIndividual ,
+                   :MelodicFormula ;
+          :hasStep :Descent1_Step1 ,
+                   :Descent1_Step2 ,
+                   :Descent1_Step3 ;
+          rdfs:comment "Apostrophos–Apostrophos–Elaphron"@bg ;
+          rdfs:label "Низходящ оборот на първи глас"@bg .
+
+
+###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Descent1_Step1
+:Descent1_Step1 rdf:type owl:NamedIndividual ,
+                         :PatternStep ;
+                :stepNeume :Apostrophos ;
+                :stepPosition 1 ;
+                rdfs:label "1. апострофос"@bg .
+
+
+###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Descent1_Step2
+:Descent1_Step2 rdf:type owl:NamedIndividual ,
+                         :PatternStep ;
+                :stepNeume :Apostrophos ;
+                :stepPosition 2 ;
+                rdfs:label "2. апострофос"@bg .
+
+
+###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Descent1_Step3
+:Descent1_Step3 rdf:type owl:NamedIndividual ,
+                         :PatternStep ;
+                :stepNeume :Elaphron ;
+                :stepPosition 3 ;
+                rdfs:label "3. елафрон"@bg .
+
+
+###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Descent2
+:Descent2 rdf:type owl:NamedIndividual ,
+                   :MelodicFormula ;
+          :hasStep :Descent2_Step1 ,
+                   :Descent2_Step2 ;
+          rdfs:comment "Elaphron–Apostrophos"@bg ;
+          rdfs:label "Низходящ оборот на втори глас"@bg .
+
+
+###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Descent2_Step1
+:Descent2_Step1 rdf:type owl:NamedIndividual ,
+                         :PatternStep ;
+                :stepNeume :Elaphron ;
+                :stepPosition 1 ;
+                rdfs:label "1. елафрон"@bg .
+
+
+###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Descent2_Step2
+:Descent2_Step2 rdf:type owl:NamedIndividual ,
+                         :PatternStep ;
+                :stepNeume :Apostrophos ;
+                :stepPosition 2 ;
+                rdfs:label "2. апострофос"@bg .
+
+
+###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Descent3
+:Descent3 rdf:type owl:NamedIndividual ,
+                   :MelodicFormula ;
+          :hasStep :Descent3_Step1 ,
+                   :Descent3_Step2 ;
+          rdfs:comment "Hyporroe–Elaphron"@bg ;
+          rdfs:label "Низходящ оборот на трети глас"@bg .
+
+
+###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Descent3_Step1
+:Descent3_Step1 rdf:type owl:NamedIndividual ,
+                         :PatternStep ;
+                :stepNeume :Hyporroe ;
+                :stepPosition 1 ;
+                rdfs:label "1. ипорроé"@bg .
+
+
+###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Descent3_Step2
+:Descent3_Step2 rdf:type owl:NamedIndividual ,
+                         :PatternStep ;
+                :stepNeume :Elaphron ;
+                :stepPosition 2 ;
+                rdfs:label "2. елафрон"@bg .
+
+
+###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Descent4
+:Descent4 rdf:type owl:NamedIndividual ,
+                   :MelodicFormula ;
+          :hasStep :Descent4_Step1 ,
+                   :Descent4_Step2 ,
+                   :Descent4_Step3 ;
+          rdfs:comment "Elaphron–Hyporroe–Apostrophos"@bg ;
+          rdfs:label "Низходящ оборот на четвърти глас"@bg .
+
+
+###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Descent4_Step1
+:Descent4_Step1 rdf:type owl:NamedIndividual ,
+                         :PatternStep ;
+                :stepNeume :Elaphron ;
+                :stepPosition 1 ;
+                rdfs:label "1. елафрон"@bg .
+
+
+###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Descent4_Step2
+:Descent4_Step2 rdf:type owl:NamedIndividual ,
+                         :PatternStep ;
+                :stepNeume :Hyporroe ;
+                :stepPosition 2 ;
+                rdfs:label "2. ипорроé"@bg .
+
+
+###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Descent4_Step3
+:Descent4_Step3 rdf:type owl:NamedIndividual ,
+                         :PatternStep ;
+                :stepNeume :Apostrophos ;
+                :stepPosition 3 ;
+                rdfs:label "3. апострофос"@bg .
+
+
+###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Descent5
+:Descent5 rdf:type owl:NamedIndividual ,
+                   :MelodicFormula ;
+          :hasStep :Descent5_Step1 ,
+                   :Descent5_Step2 ,
+                   :Descent5_Step3 ;
+          rdfs:comment "Elaphron–Apostrophos–Apostrophos"@bg ;
+          rdfs:label "Низходящ оборот на пети глас"@bg .
+
+
+###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Descent5_Step1
+:Descent5_Step1 rdf:type owl:NamedIndividual ,
+                         :PatternStep ;
+                :stepNeume :Elaphron ;
+                :stepPosition 1 ;
+                rdfs:label "1. елафрон"@bg .
+
+
+###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Descent5_Step2
+:Descent5_Step2 rdf:type owl:NamedIndividual ,
+                         :PatternStep ;
+                :stepNeume :Apostrophos ;
+                :stepPosition 2 ;
+                rdfs:label "2. апострофос"@bg .
+
+
+###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Descent5_Step3
+:Descent5_Step3 rdf:type owl:NamedIndividual ,
+                         :PatternStep ;
+                :stepNeume :Apostrophos ;
+                :stepPosition 3 ;
+                rdfs:label "3. апострофос"@bg .
+
+
+###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Descent6
+:Descent6 rdf:type owl:NamedIndividual ,
+                   :MelodicFormula ;
+          :hasStep :Descent6_Step1 ,
+                   :Descent6_Step2 ;
+          rdfs:comment "Elaphron–Elaphron"@bg ;
+          rdfs:label "Низходящ оборот на шести глас"@bg .
+
+
+###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Descent6_Step1
+:Descent6_Step1 rdf:type owl:NamedIndividual ,
+                         :PatternStep ;
+                :stepNeume :Elaphron ;
+                :stepPosition 1 ;
+                rdfs:label "1. елафрон"@bg .
+
+
+###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Descent6_Step2
+:Descent6_Step2 rdf:type owl:NamedIndividual ,
+                         :PatternStep ;
+                :stepNeume :Elaphron ;
+                :stepPosition 2 ;
+                rdfs:label "2. елафрон"@bg .
+
+
+###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Descent7
+:Descent7 rdf:type owl:NamedIndividual ,
+                   :MelodicFormula ;
+          :hasStep :Descent7_Step1 ,
+                   :Descent7_Step2 ;
+          rdfs:comment "Chamili–Apostrophos (голям скок надолу)"@bg ;
+          rdfs:label "Низходящ оборот на седми глас"@bg .
+
+
+###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Descent7_Step1
+:Descent7_Step1 rdf:type owl:NamedIndividual ,
+                         :PatternStep ;
+                :stepNeume :Chamili ;
+                :stepPosition 1 ;
+                rdfs:label "1. хамили"@bg .
+
+
+###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Descent7_Step2
+:Descent7_Step2 rdf:type owl:NamedIndividual ,
+                         :PatternStep ;
+                :stepNeume :Apostrophos ;
+                :stepPosition 2 ;
+                rdfs:label "2. апострофос"@bg .
+
+
+###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Descent8
+:Descent8 rdf:type owl:NamedIndividual ,
+                   :MelodicFormula ;
+          :hasStep :Descent8_Step1 ,
+                   :Descent8_Step2 ,
+                   :Descent8_Step3 ;
+          rdfs:comment "Apostrophos–Elaphron–Apostrophos"@bg ;
+          rdfs:label "Низходящ оборот на осми глас"@bg .
+
+
+###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Descent8_Step1
+:Descent8_Step1 rdf:type owl:NamedIndividual ,
+                         :PatternStep ;
+                :stepNeume :Apostrophos ;
+                :stepPosition 1 ;
+                rdfs:label "1. апострофос"@bg .
+
+
+###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Descent8_Step2
+:Descent8_Step2 rdf:type owl:NamedIndividual ,
+                         :PatternStep ;
+                :stepNeume :Elaphron ;
+                :stepPosition 2 ;
+                rdfs:label "2. елафрон"@bg .
+
+
+###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Descent8_Step3
+:Descent8_Step3 rdf:type owl:NamedIndividual ,
+                         :PatternStep ;
+                :stepNeume :Apostrophos ;
+                :stepPosition 3 ;
+                rdfs:label "3. апострофос"@bg .
+
+
 ###  http://www.paralagia.bg/ontology/vizantiiska-muzika#DiatonicScaleInstance
 :DiatonicScaleInstance rdf:type owl:NamedIndividual ,
                                 :DiatonicScale ;
@@ -3814,13 +4644,27 @@ xsd:gYear rdf:type rdfs:Datatype .
                                  "Ранновизантийски период (4–9 в.)"@bg .
 
 
+###  http://www.paralagia.bg/ontology/vizantiiska-muzika#EasternOrthodoxTradition
+:EasternOrthodoxTradition rdf:type owl:NamedIndividual ,
+                                   :ChantingSchool ;
+                          :description "Общата източноправославна певческа традиция, която обхваща всички поместни школи."@bg .
+
+
 ###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Elaphron
 :Elaphron rdf:type owl:NamedIndividual ,
                    :BodyNeume ;
           :representsStep :StepVu ;
           :description "Движение надолу с две стъпки."@bg ;
           :intervalSemitones -4 ;
-          :intervalValue -2 .
+          :intervalValue -2 ;
+          :greekName "Ἐλαφρόν" ;
+          :hasImageData "images/sign_elaphron.png" ;
+          rdfs:comment "Two steps down."@en ,
+                       "Елафрон – движение с две стъпки надолу (−2)."@bg ,
+                       "Елафрон – низходяща невма; движение с две стъпки надолу. Интервал: −2."@bg ;
+          rdfs:label "Elaphron (two steps down)"@en ,
+                     "Елафрон (две стъпки надолу)"@bg ,
+                     "Ἐλαφρόν"@el .
 
 
 ###  http://www.paralagia.bg/ontology/vizantiiska-muzika#EnharmonicScaleInstance
@@ -4295,6 +5139,10 @@ xsd:gYear rdf:type rdfs:Datatype .
 ###  http://www.paralagia.bg/ontology/vizantiiska-muzika#GregoriusProtopsaltis
 :GregoriusProtopsaltis rdf:type owl:NamedIndividual ,
                                 :Chanter ;
+                       :belongsToSchool :ConstantinopolitanSchool ;
+                       :collaboratedWith :ChourmouziosChartophylax ;
+                       :contemporaryOf :ChourmouziosChartophylax ;
+                       :flourishedDuring :NeoByzantinePeriod ;
                        :birthYear 1778 ;
                        :deathYear 1821 ;
                        :hasImageData "images/gregorios_protopsaltis.jpg" ;
@@ -4344,22 +5192,40 @@ xsd:gYear rdf:type rdfs:Datatype .
 :Hyporroe rdf:type owl:NamedIndividual ,
                    :BodyNeume ;
           :representsStep :StepPa ;
-          :description "Движение надолу с една стъпка."@bg ;
+          :description "Две последователни стъпки надолу; за разлика от елафрон, който покрива същото разстояние със скок."@bg ;
           :intervalSemitones -4 ;
-          :intervalValue -2 .
+          :intervalValue -2 ;
+          :greekName "Ὑπορροή" ;
+          :hasImageData "images/sign_hyporroe.png" ;
+          rdfs:comment "Two steps down with a smooth gliding character."@en ,
+                       "Ипорроé – мека низходяща невма; две последователни стъпки надолу. Интервал: −1."@bg ,
+                       "Ипорроé – плавно низходящо движение с две стъпки."@bg ;
+          rdfs:label "Hyporroe (two steps down)"@en ,
+                     "Ипорроé (две стъпки надолу)"@bg ,
+                     "Ὑπορροή"@el .
 
 
 ###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Hypsili
 :Hypsili rdf:type owl:NamedIndividual ,
                   :BodyNeume ;
          :intervalSemitones 8 ;
-         :intervalValue 4 .
+         :intervalValue 4 ;
+         :greekName "Ὑψηλή" ;
+         :hasImageData "images/sign_hypsili.png" ;
+         rdfs:comment "Four steps up — large ascent."@en ,
+                      "Ипсили – голям възходящ скок с четири стъпки (+4)."@bg ,
+                      "Ипсили — четири степени нагоре."@bg ;
+         rdfs:label "Hypsili"@en ,
+                    "Ипсили"@bg ,
+                    "Ὑψηλή"@el .
 
 
 ###  http://www.paralagia.bg/ontology/vizantiiska-muzika#IoanKukuzel
 :IoanKukuzel rdf:type owl:NamedIndividual ,
                       :Chanter ,
                       :Saint ;
+             :belongsToSchool :AthoniteTradition ;
+             :flourishedDuring :LateByzantinePeriod ;
              :birthYear 1280 ;
              :deathYear 1360 ;
              :hasImageData "images/yoan_kukuzel.png" ;
@@ -4390,6 +5256,8 @@ xsd:gYear rdf:type rdfs:Datatype .
 :JohnOfDamascus rdf:type owl:NamedIndividual ,
                          :Hymnographer ,
                          :Saint ;
+                :belongsToSchool :EasternOrthodoxTradition ;
+                :flourishedDuring :EarlyByzantinePeriod ;
                 :birthYear 675 ;
                 :deathYear 749 ;
                 :hasImageData "images/yoan_damaskin.png" ;
@@ -4407,7 +5275,15 @@ xsd:gYear rdf:type rdfs:Datatype .
          :representsStep :StepVu ;
          :description "Движение нагоре с две стъпки."@bg ;
          :intervalSemitones 4 ;
-         :intervalValue 2 .
+         :intervalValue 2 ;
+         :greekName "Κέντημα" ;
+         :hasImageData "images/sign_kentima.png" ;
+         rdfs:comment "Small upward ornament, usually combined with Oligon."@en ,
+                      "Кентима – знак за движение с две стъпки нагоре. Интервал: +2."@bg ,
+                      "Кентима – малко украшение нагоре; обикновено се комбинира с Олигон."@bg ;
+         rdfs:label "Kentima (two steps up)"@en ,
+                    "Κέντημα"@el ,
+                    "Кентима (две стъпки нагоре)"@bg .
 
 
 ###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Kentimata
@@ -4415,15 +5291,14 @@ xsd:gYear rdf:type rdfs:Datatype .
                     :BodyNeume ;
            :description "Две точки една до друга; движение с една стъпка нагоре, без ударение."@bg ;
            :intervalSemitones 2 ;
-           :intervalValue 1 .
-
-
-###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Petasti
-:Petasti rdf:type owl:NamedIndividual ,
-                  :BodyNeume ;
-         :description "Възходяща извивка; движение с една стъпка нагоре, изпята с ударение и трептене на гласа."@bg ;
-         :intervalSemitones 2 ;
-         :intervalValue 1 .
+           :intervalValue 1 ;
+           :greekName "Κεντήματα" ;
+           :hasImageData "images/sign_kentimata.png" ;
+           rdfs:comment "One step up, unstressed; written as two dots."@en ,
+                        "Кентимата – двете точки; движение с една стъпка нагоре, без ударение. Интервал: +1."@bg ;
+           rdfs:label "Kentimata (one step up)"@en ,
+                      "Κεντήματα"@el ,
+                      "Кентимата (една стъпка нагоре)"@bg .
 
 
 ###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Klasma
@@ -4435,6 +5310,15 @@ xsd:gYear rdf:type rdfs:Datatype .
         rdfs:label "Klasma"@en ,
                    "Κλάσμα"@el ,
                    "Класма (задържане)"@bg .
+
+
+###  http://www.paralagia.bg/ontology/vizantiiska-muzika#LateByzantinePeriod
+:LateByzantinePeriod rdf:type owl:NamedIndividual ,
+                              :HistoricalPeriod ;
+                     :precedes :PostByzantinePeriod ;
+                     :description "Времето на Палеолозите: разцвет на калофоничното пеене и на учителството, към което принадлежи и Йоан Кукузел."@bg ;
+                     rdfs:label "Late Byzantine (Palaiologan) period (13th–15th c.)"@en ,
+                                "Късновизантийски (палеологов) период (13–15 в.)"@bg .
 
 
 ###  http://www.paralagia.bg/ontology/vizantiiska-muzika#LowerTetrachord
@@ -4449,7 +5333,8 @@ xsd:gYear rdf:type rdfs:Datatype .
 ###  http://www.paralagia.bg/ontology/vizantiiska-muzika#MiddleByzantinePeriod
 :MiddleByzantinePeriod rdf:type owl:NamedIndividual ,
                                 :HistoricalPeriod ;
-                       :precedes :PostByzantinePeriod ;
+                       :precedes :LateByzantinePeriod ,
+                                 :PostByzantinePeriod ;
                        :periodEnd 1453 ;
                        :periodStart 900 ;
                        rdfs:comment "Middle Byzantine (9th-15th c.). Flowering of Byzantine chant and the Kalophonic style."@en ,
@@ -4461,6 +5346,10 @@ xsd:gYear rdf:type rdfs:Datatype .
 ###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Mode1
 :Mode1 rdf:type owl:NamedIndividual ,
                 :AuthenticMode ;
+       :hasApechema :Apechema1 ;
+       :hasAscendingFormula :Ascent1 ;
+       :hasCadentialFormula :Cadence1 ;
+       :hasDescendingFormula :Descent1 ;
        :hasFinal :StepPa ;
        :hasIson :StepPa ;
        :usesScale :DiatonicScaleInstance ;
@@ -4469,8 +5358,9 @@ xsd:gYear rdf:type rdfs:Datatype .
        :ascendingPattern "Oligon–Oligon–Oligon (стъпки нагоре)" ;
        :cadencePattern "Oligon–Apostrophos–Ison (завършва на Πα)" ;
        :character "Тържествен, величествен, подходящ за хвалебни и радостни песнопения" ;
+       <http://purl.org/dc/terms/source> "https://www.johnsanidopoulos.com/2019/10/the-meaning-and-character-of-eight.html" ;
        :descendingPattern "Apostrophos–Apostrophos–Elaphron" ;
-       :description "Устой Πα и в двата стила. Господстващ тон Δη в хирмологичния и Γα в стихерарния. Такис, С. Дж. A Primer on the Byzantine Musical System Using Western Notation and Theory, 2005, с. 5."@bg ;
+       :description "Устой Πα и в двата стила. Господстващ тон Δη в хирмологичния и Γα в стихерарния."@bg ;
        :finalTone "Πα (Ре)" ;
        :melodicRangeSteps 8 ;
        :modeNumber 1 ;
@@ -4485,6 +5375,10 @@ xsd:gYear rdf:type rdfs:Datatype .
 ###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Mode2
 :Mode2 rdf:type owl:NamedIndividual ,
                 :AuthenticMode ;
+       :hasApechema :Apechema2 ;
+       :hasAscendingFormula :Ascent2 ;
+       :hasCadentialFormula :Cadence2 ;
+       :hasDescendingFormula :Descent2 ;
        :hasFinal :StepDi ;
        :hasIson :StepDi ;
        :usesScale :SoftChromaticScaleInstance ;
@@ -4493,8 +5387,9 @@ xsd:gYear rdf:type rdfs:Datatype .
        :ascendingPattern "Oligon–Kentima–Oligon (с хроматичен цвят)" ;
        :cadencePattern "Hyporroe–Ison (завършва на Δη)" ;
        :character "Нежен, молитвен, изразяващ смирение и умиление" ;
+       <http://purl.org/dc/terms/source> "https://www.johnsanidopoulos.com/2019/10/the-meaning-and-character-of-eight.html" ;
        :descendingPattern "Elaphron–Apostrophos" ;
-       :description "Устой Δη. В хирмоса на канон родът става твърд хроматичен с устой Πα или Βου. Такис, С. Дж. A Primer on the Byzantine Musical System Using Western Notation and Theory, 2005, с. 5."@bg ;
+       :description "Устой Δη. В хирмоса на канон родът става твърд хроматичен с устой Πα или Βου."@bg ;
        :finalTone "Δη (Сол)" ;
        :melodicRangeSteps 8 ;
        :modeNumber 2 ;
@@ -4509,6 +5404,10 @@ xsd:gYear rdf:type rdfs:Datatype .
 ###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Mode3
 :Mode3 rdf:type owl:NamedIndividual ,
                 :AuthenticMode ;
+       :hasApechema :Apechema3 ;
+       :hasAscendingFormula :Ascent3 ;
+       :hasCadentialFormula :Cadence3 ;
+       :hasDescendingFormula :Descent3 ;
        :hasFinal :StepGa ;
        :hasIson :StepGa ;
        :usesScale :EnharmonicScaleInstance ;
@@ -4516,15 +5415,16 @@ xsd:gYear rdf:type rdfs:Datatype .
        :apechemaSyllables "Νανα" ;
        :ascendingPattern "Oligon–Oligon–Kentima" ;
        :cadencePattern "Apostrophos–Elaphron–Ison (завършва на Γα)" ;
-       :character "Тъжен, покаятен, подходящ за скръбни и умилителни песнопения" ;
+       :character "Строг и непреклонен — енхармоничният звукоред няма встъпителен тон. Гръцката традиция чете тази непреклонност като мъжество и величие, славянската — като суровост и покаяние" ;
+       <http://purl.org/dc/terms/source> "https://www.johnsanidopoulos.com/2019/10/the-meaning-and-character-of-eight.html" ;
        :descendingPattern "Hyporroe–Elaphron" ;
-       :description "Устой Γα и в двата стила. Исонът често се мени между Γα и Νη. Такис, С. Дж. A Primer on the Byzantine Musical System Using Western Notation and Theory, 2005, с. 5."@bg ;
+       :description "Устой Γα и в двата стила. Исонът често се мени между Γα и Νη."@bg ;
        :finalTone "Γα (Фа)" ;
        :melodicRangeSteps 8 ;
        :modeNumber 3 ;
        :scaleType "енхармоничен" ;
        :greekName "Τρίτος ήχος (Γ΄)" ;
-       rdfs:comment "Трети глас (Τρίτος) – тъжен, покаятен; подходящ за скръбни песнопения."@bg ;
+       rdfs:comment "Трети глас (Τρίτος) – строг и непреклонен; енхармоничният звукоред няма встъпителен тон. Гръцката традиция чете тази непреклонност като мъжество и величие (разширяващ ѐтос, διασταλτικόν), славянската – като суровост и покаяние. Двете описват един и същ звукоред."@bg ;
        rdfs:label "Third Mode (Tritos)"@en ,
                   "Τρίτος ήχος"@el ,
                   "Трети глас (Τρίτος)"@bg .
@@ -4533,6 +5433,10 @@ xsd:gYear rdf:type rdfs:Datatype .
 ###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Mode4
 :Mode4 rdf:type owl:NamedIndividual ,
                 :AuthenticMode ;
+       :hasApechema :Apechema4 ;
+       :hasAscendingFormula :Ascent4 ;
+       :hasCadentialFormula :Cadence4 ;
+       :hasDescendingFormula :Descent4 ;
        :hasFinal :StepDi ;
        :hasIson :StepDi ;
        :usesScale :DiatonicScaleInstance ;
@@ -4541,8 +5445,9 @@ xsd:gYear rdf:type rdfs:Datatype .
        :ascendingPattern "Oligon–Oligon–Oligon" ;
        :cadencePattern "Oligon–Hyporroe–Ison (завършва на Δη)" ;
        :character "Величествен, тържествен и радостен – подходящ за Великден и Пасхалния период" ;
+       <http://purl.org/dc/terms/source> "https://www.johnsanidopoulos.com/2019/10/the-meaning-and-character-of-eight.html" ;
        :descendingPattern "Elaphron–Hyporroe–Apostrophos" ;
-       :description "Устоят зависи от вида на песнопението: Δη при едни, Βου при други („Λέγετος“), Πα при трети. Тук е записан Δη. Такис, С. Дж. A Primer on the Byzantine Musical System Using Western Notation and Theory, 2005, с. 5."@bg ;
+       :description "Устоят зависи от вида на песнопението: Δη при едни, Βου при други („Λέγετος“), Πα при трети. Тук е записан Δη."@bg ;
        :finalTone "Δη (Сол)" ;
        :melodicRangeSteps 8 ;
        :modeNumber 4 ;
@@ -4557,6 +5462,10 @@ xsd:gYear rdf:type rdfs:Datatype .
 ###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Mode5
 :Mode5 rdf:type owl:NamedIndividual ,
                 :PlagalMode ;
+       :hasApechema :Apechema5 ;
+       :hasAscendingFormula :Ascent5 ;
+       :hasCadentialFormula :Cadence5 ;
+       :hasDescendingFormula :Descent5 ;
        :hasFinal :StepPa ;
        :hasIson :StepPa ;
        :plagalOf :Mode1 ;
@@ -4566,8 +5475,9 @@ xsd:gYear rdf:type rdfs:Datatype .
        :ascendingPattern "Oligon–Kentima–Oligon" ;
        :cadencePattern "Apostrophos–Apostrophos–Ison (завършва на Πα)" ;
        :character "Нежен и сладостен, подходящ за хваления на Пресвета Богородица" ;
+       <http://purl.org/dc/terms/source> "https://www.johnsanidopoulos.com/2019/10/the-meaning-and-character-of-eight.html" ;
        :descendingPattern "Elaphron–Apostrophos–Apostrophos" ;
-       :description "Стихерарен стил: устой Πα. Хирмологичният стъпва на Κε — кварта по-високо. Такис, С. Дж. A Primer on the Byzantine Musical System Using Western Notation and Theory, 2005, с. 5."@bg ;
+       :description "Стихерарен стил: устой Πα. Хирмологичният стъпва на Κε — кварта по-високо."@bg ;
        :finalTone "Πα (Ре)" ;
        :melodicRangeSteps 9 ;
        :modeNumber 5 ;
@@ -4582,6 +5492,10 @@ xsd:gYear rdf:type rdfs:Datatype .
 ###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Mode6
 :Mode6 rdf:type owl:NamedIndividual ,
                 :PlagalMode ;
+       :hasApechema :Apechema6 ;
+       :hasAscendingFormula :Ascent6 ;
+       :hasCadentialFormula :Cadence6 ;
+       :hasDescendingFormula :Descent6 ;
        :hasFinal :StepPa ;
        :hasIson :StepPa ;
        :plagalOf :Mode2 ;
@@ -4591,8 +5505,9 @@ xsd:gYear rdf:type rdfs:Datatype .
        :ascendingPattern "Oligon–Kentima (хроматичен скок)" ;
        :cadencePattern "Hyporroe–Apostrophos–Ison (завършва на Πα)" ;
        :character "Дълбок и тъжен, особено подходящ за покаяние и страдания (Великопостни химни)" ;
+       <http://purl.org/dc/terms/source> "https://www.johnsanidopoulos.com/2019/10/the-meaning-and-character-of-eight.html" ;
        :descendingPattern "Elaphron–Elaphron" ;
-       :description "Стихерарен и папад: твърд хроматичен с устой Πα. Хирмологичният стил е мек хроматичен с устой Δη. Такис, С. Дж. A Primer on the Byzantine Musical System Using Western Notation and Theory, 2005, с. 5."@bg ;
+       :description "Стихерарен и папад: твърд хроматичен с устой Πα. Хирмологичният стил е мек хроматичен с устой Δη."@bg ;
        :finalTone "Πα (Ре)" ;
        :melodicRangeSteps 9 ;
        :modeNumber 6 ;
@@ -4607,17 +5522,22 @@ xsd:gYear rdf:type rdfs:Datatype .
 ###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Mode7
 :Mode7 rdf:type owl:NamedIndividual ,
                 :PlagalMode ;
+       :hasApechema :Apechema7 ;
+       :hasAscendingFormula :Ascent7 ;
+       :hasCadentialFormula :Cadence7 ;
+       :hasDescendingFormula :Descent7 ;
        :hasFinal :StepGa ;
        :hasIson :StepGa ;
        :plagalOf :Mode3 ;
        :usesScale :EnharmonicScaleInstance ;
        :apechemaNote "Завършва на Γα. Папидичните варианти тръгват от ниското Ζω — веднъж диатонично, веднъж енхармонично — и тъкмо те са дали повода Варис да бъде записван с устой Ζω."@bg ;
-       :apechemaSyllables "Ἄνες" ;
+       :apechemaSyllables "Ἄανες" ;
        :ascendingPattern "Hypsili–Oligon (голям скок нагоре)" ;
        :cadencePattern "Apostrophos–Elaphron–Ison (завършва на Γα)" ;
        :character "Тежък и дълбок, с характер на смирение и сериозност" ;
+       <http://purl.org/dc/terms/source> "https://www.johnsanidopoulos.com/2019/10/the-meaning-and-character-of-eight.html" ;
        :descendingPattern "Chamili–Apostrophos (голям скок надолу)" ;
-       :description "Варис ползва звукореда и устоя на трети глас, но с други обороти и господстващи тонове. Папидичният му вариант е диатоничен и завършва на ниското Ζω — най-ниският устой в осмогласието. Такис, С. Дж. A Primer on the Byzantine Musical System Using Western Notation and Theory, 2005, с. 5."@bg ;
+       :description "Варис ползва звукореда и устоя на трети глас, но с други обороти и господстващи тонове. Папидичният му вариант е диатоничен и завършва на ниското Ζω — най-ниският устой в осмогласието."@bg ;
        :finalTone "Γα (Фа)" ;
        :melodicRangeSteps 10 ;
        :modeNumber 7 ;
@@ -4632,6 +5552,10 @@ xsd:gYear rdf:type rdfs:Datatype .
 ###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Mode8
 :Mode8 rdf:type owl:NamedIndividual ,
                 :PlagalMode ;
+       :hasApechema :Apechema8 ;
+       :hasAscendingFormula :Ascent8 ;
+       :hasCadentialFormula :Cadence8 ;
+       :hasDescendingFormula :Descent8 ;
        :hasFinal :StepNi ;
        :hasIson :StepNi ;
        :plagalOf :Mode4 ;
@@ -4640,15 +5564,16 @@ xsd:gYear rdf:type rdfs:Datatype .
        :apechemaSyllables "Νεαγιε" ;
        :ascendingPattern "Oligon–Oligon–Kentima" ;
        :cadencePattern "Elaphron–Apostrophos–Ison (завършва на Νη)" ;
-       :character "Тържествен и радостен с елементи на смирение; пълнота на осмогласния кръг" ;
+       :character "Спокоен и уравновесен, с ведра сдържаност. Носи и великите празнични песнопения, и покайните — според текста излиза напред едната или другата страна" ;
+       <http://purl.org/dc/terms/source> "https://www.johnsanidopoulos.com/2019/10/the-meaning-and-character-of-eight.html" ;
        :descendingPattern "Apostrophos–Elaphron–Apostrophos" ;
-       :description "Устой Νη. Апολυτикиите и канонитe се пренасят на Γα, като разстоянията остават същите. Такис, С. Дж. A Primer on the Byzantine Musical System Using Western Notation and Theory, 2005, с. 5."@bg ;
+       :description "Устой Νη. Апολυτикиите и канонитe се пренасят на Γα, като разстоянията остават същите."@bg ;
        :finalTone "Νη (До)" ;
        :melodicRangeSteps 8 ;
        :modeNumber 8 ;
        :scaleType "диатоничен" ;
        :greekName "Πλάγιος Δ΄ (πλ. δ΄)" ;
-       rdfs:comment "Осми глас – плагален на четвърти (πλ. δ΄); тържествен и радостен; пълнота на осмогласния кръг."@bg ;
+       rdfs:comment "Осми глас – плагален на четвърти (πλ. δ΄); спокоен и уравновесен, с ведра сдържаност. Носи както великите празнични песнопения, тъй и покайните; класическата подялба го отнася към успокояващия ѐтос (ἡσυχαστικόν). Пълнота на осмогласния кръг."@bg ;
        rdfs:label "Eighth Mode – Plagal Fourth"@en ,
                   "Πλάγιος Δ΄ ήχος"@el ,
                   "Осми глас – Плагален четвърти (πλ. δ΄)"@bg .
@@ -4668,6 +5593,8 @@ xsd:gYear rdf:type rdfs:Datatype .
 :NeophytRilski rdf:type owl:NamedIndividual ,
                         :Hymnographer ;
                :belongsToSchool :BulgarianChantingTradition ;
+               :flourishedDuring :BulgarianRevivalPeriod ;
+               <http://purl.org/dc/terms/source> "https://bg.wikipedia.org/wiki/%D0%9D%D0%B5%D0%BE%D1%84%D0%B8%D1%82_%D0%A0%D0%B8%D0%BB%D1%81%D0%BA%D0%B8" ;
                :description "Виден български православен просветител и монах от Рилския манастир (1793–1881). Първият, въвел новата аналитична нотация в България."@bg ;
                :hasImageData "images/neofit_rilski.jpg" ;
                rdfs:comment "Неофит Рилски (1793–1881) – монах, просветител и мелодописец. Въвежда Хурмузиевата реформирана нотация в България и съставя певчески ръководства."@bg ;
@@ -4680,7 +5607,15 @@ xsd:gYear rdf:type rdfs:Datatype .
 :Oligon rdf:type owl:NamedIndividual ,
                  :BodyNeume ;
         :intervalSemitones 2 ;
-        :intervalValue 1 .
+        :intervalValue 1 ;
+        :greekName "Ὀλίγον" ;
+        :hasImageData "images/sign_oligon.png" ;
+        rdfs:comment "One step up."@en ,
+                     "Олигон – стъпка нагоре; основна възходяща невма (+1)."@bg ,
+                     "Олигон — една степен нагоре. Основният възходящ знак."@bg ;
+        rdfs:label "Oligon"@en ,
+                   "Олигон"@bg ,
+                   "Ὀλίγον"@el .
 
 
 ###  http://www.paralagia.bg/ontology/vizantiiska-muzika#PapadicStyle
@@ -4695,16 +5630,38 @@ xsd:gYear rdf:type rdfs:Datatype .
                          "Пападически стил"@bg .
 
 
+###  http://www.paralagia.bg/ontology/vizantiiska-muzika#Petasti
+:Petasti rdf:type owl:NamedIndividual ,
+                  :BodyNeume ;
+         :description "Възходяща извивка; движение с една стъпка нагоре, изпята с ударение и трептене на гласа."@bg ;
+         :intervalSemitones 2 ;
+         :intervalValue 1 ;
+         :greekName "Πεταστή" ;
+         :hasImageData "images/sign_petasti.png" ;
+         rdfs:comment "One step up, stressed with a flutter of the voice."@en ,
+                      "Петасти – възходяща извивка; движение с една стъпка нагоре, изпято с ударение и трептене на гласа. Интервал: +1."@bg ;
+         rdfs:label "Petasti (one step up, stressed)"@en ,
+                    "Πεταστή"@el ,
+                    "Петасти (една стъпка нагоре, с ударение)"@bg .
+
+
 ###  http://www.paralagia.bg/ontology/vizantiiska-muzika#PetrosLampadarios
 :PetrosLampadarios rdf:type owl:NamedIndividual ,
                             :Chanter ;
+                   :belongsToSchool :ConstantinopolitanSchool ;
+                   :hasImageData "images/petar_lambadarii.png" ;
+                   :hasImageSource "https://dveri.bg/component/com_content/Itemid,127/catid,93/id,73298/view,article/" ;
+                   rdfs:comment "Годината на смъртта се дава различно: едни извори пишат 1777, други 1777/78. Тук се води 1778."@bg ;
+                   :flourishedDuring :PostByzantinePeriod ;
+                   <http://purl.org/dc/terms/source> "https://www.pravoslavie.bg/?p=1623083" ;
+                   <http://purl.org/dc/terms/source> "https://dveri.bg/component/com_content/Itemid,127/catid,93/id,73298/view,article/" ;
                    :birthYear 1730 ;
                    :deathYear 1778 ;
                    rdfs:comment "Petros Lampadarios. Greatest Byzantine composer of the 18th century, Protopsaltis of Constantinople."@en ,
                                 "Петър Ламбадарий – протопсалт на Цариград; най-великият византийски мелодописец на 18 в."@bg ;
                    rdfs:label "Petros Lampadarios"@en ,
                               "Πέτρος Λαμπαδάριος"@el ,
-                              "Петър Ламбадарий (1730–1778)"@bg .
+                              "Петър Ламбадарий (1730–1777/78)"@bg .
 
 
 ###  http://www.paralagia.bg/ontology/vizantiiska-muzika#PostByzantinePeriod
@@ -4713,7 +5670,6 @@ xsd:gYear rdf:type rdfs:Datatype .
                      :precedes :NeoByzantinePeriod ;
                      :periodEnd 1814 ;
                      :periodStart 1453 ;
-                     :hasImageData "images/byzantine_manuscript.jpg" ;
                      rdfs:comment "Post-Byzantine (15th-19th c.). Continuation of tradition under Ottoman rule."@en ,
                                   "Периодът след падането на Константинопол – продължение на традицията в Атон и Цариград."@bg ;
                      rdfs:label "Post-Byzantine Period (1453–1814)"@en ,
@@ -4735,6 +5691,8 @@ xsd:gYear rdf:type rdfs:Datatype .
 :RomanosTheMelodist rdf:type owl:NamedIndividual ,
                              :Hymnographer ,
                              :Saint ;
+                    :belongsToSchool :ConstantinopolitanSchool ;
+                    :flourishedDuring :EarlyByzantinePeriod ;
                     :birthYear 490 ;
                     :deathYear 556 ;
                     :hasImageData "images/roman_sladkopevec.png" ;
@@ -4919,7 +5877,6 @@ xsd:gYear rdf:type rdfs:Datatype .
 :ZographouTradition rdf:type owl:NamedIndividual ,
                              :BulgarianChantingTradition ;
                     :description "Традицията на Зографския монастир в Света гора Атон – средновековен (изцяло български) монашески център, пазил певчески ръкописи и певческото предание."@bg ;
-                    :hasImageData "images/zograf_icon.jpg" ;
                     rdfs:comment "Певческата традиция на Зографския монастир в Света гора – средновековен български монашески певчески център."@bg ;
                     rdfs:label "Zographou Chanting Tradition"@en ,
                                "Παράδοση τῆς Ζωγράφου"@el ,
@@ -4930,95 +5887,24 @@ xsd:gYear rdf:type rdfs:Datatype .
 #    Annotations
 #################################################################
 
-:Apostrophos rdfs:comment "Апострофос – основна низходяща невма; движение с една стъпка надолу. Интервал: −1."@bg ;
-             rdfs:label "Апострофос (стъпка надолу)"@bg ;
-             :greekName "Ἀπόστροφος" ;
-             rdfs:comment "One step down."@en ,
-                          "Апострофос – стъпка надолу; основна низходяща невма (−1)."@bg ;
-             rdfs:label "Apostrophos (one step down)"@en ,
-                        "Ἀπόστροφος"@el ;
-             :hasImageData "images/sign_apostrophos.png" .
+:AthoniteTradition :traditionKey "athonite" ;
+                   rdfs:label "Athonite tradition"@en ,
+                              "Света Гора (атонска традиция)"@bg .
 
 
-:BulgarianChantingTradition :hasImageData "images/rila_archive.jpg" .
+:BulgarianChantingTradition :traditionKey "bulgarian" ;
+                            rdfs:label "Bulgarian chanting tradition"@en ,
+                                       "Българска певческа традиция"@bg .
 
 
-:Chamili rdfs:comment "Four steps down — large descent."@en ;
-         :hasImageData "images/sign_chamili.png" ;
-         :greekName "Χαμηλή" ;
-         rdfs:label "Χαμηλή"@el ,
-                    "Chamili"@en ,
-                    "Хамили"@bg ;
-         rdfs:comment "Хамили – голям низходящ скок с четири стъпки (−4)."@bg ,
-                      "Хамили — четири степени надолу."@bg .
+:ConstantinopolitanSchool :traditionKey "constantinopolitan" ;
+                          rdfs:label "Constantinopolitan School"@en ,
+                                     "Константинополска певческа школа"@bg .
 
 
-:Elaphron rdfs:comment "Елафрон – низходяща невма; движение с две стъпки надолу. Интервал: −2."@bg ;
-          rdfs:label "Elaphron (two steps down)"@en ;
-          rdfs:comment "Two steps down."@en ;
-          :hasImageData "images/sign_elaphron.png" ;
-          rdfs:comment "Елафрон – движение с две стъпки надолу (−2)."@bg ;
-          rdfs:label "Елафрон (две стъпки надолу)"@bg ,
-                     "Ἐλαφρόν"@el ;
-          :greekName "Ἐλαφρόν" .
-
-
-:Hyporroe rdfs:comment "Ипорроé – плавно низходящо движение с две стъпки."@bg ;
-          rdfs:label "Ипорроé (две стъпки надолу)"@bg ,
-                     "Hyporroe (two steps down)"@en ,
-                     "Ὑπορροή"@el ;
-          :hasImageData "images/sign_hyporroe.png" ;
-          rdfs:comment "Two steps down with a smooth gliding character."@en ;
-          :greekName "Ὑπορροή" ;
-          rdfs:comment "Ипорроé – мека низходяща невма; движение с една стъпка надолу. Интервал: −1."@bg .
-
-
-:Hypsili rdfs:comment "Ипсили – голям възходящ скок с четири стъпки (+4)."@bg ;
-         :greekName "Ὑψηλή" ;
-         rdfs:comment "Four steps up — large ascent."@en ;
-         rdfs:label "Ὑψηλή"@el ,
-                    "Hypsili"@en ;
-         :hasImageData "images/sign_hypsili.png" ;
-         rdfs:label "Ипсили"@bg ;
-         rdfs:comment "Ипсили — четири степени нагоре."@bg .
-
-
-:Kentima rdfs:comment "Small upward ornament, usually combined with Oligon."@en ;
-         rdfs:label "Kentima (two steps up)"@en ;
-         rdfs:comment "Кентима – знак за движение с две стъпки нагоре. Интервал: +2."@bg ;
-         rdfs:label "Κέντημα"@el ;
-         :hasImageData "images/sign_kentima.png" ;
-         :greekName "Κέντημα" ;
-         rdfs:comment "Кентима – малко украшение нагоре; обикновено се комбинира с Олигон."@bg ;
-         rdfs:label "Кентима (две стъпки нагоре)"@bg .
-
-
-:Kentimata rdfs:comment "One step up, unstressed; written as two dots."@en ;
-           rdfs:label "Kentimata (one step up)"@en ;
-           rdfs:comment "Кентимата – двете точки; движение с една стъпка нагоре, без ударение. Интервал: +1."@bg ;
-           rdfs:label "Κεντήματα"@el ;
-           :hasImageData "images/sign_kentimata.png" ;
-           :greekName "Κεντήματα" ;
-           rdfs:label "Кентимата (една стъпка нагоре)"@bg .
-
-
-:Petasti rdfs:comment "One step up, stressed with a flutter of the voice."@en ;
-         rdfs:label "Petasti (one step up, stressed)"@en ;
-         rdfs:comment "Петасти – възходяща извивка; движение с една стъпка нагоре, изпято с ударение и трептене на гласа. Интервал: +1."@bg ;
-         rdfs:label "Πεταστή"@el ;
-         :hasImageData "images/sign_petasti.png" ;
-         :greekName "Πεταστή" ;
-         rdfs:label "Петасти (една стъпка нагоре, с ударение)"@bg .
-
-
-:Oligon rdfs:label "Олигон"@bg ;
-        :hasImageData "images/sign_oligon.png" ;
-        rdfs:label "Ὀλίγον"@el ;
-        rdfs:comment "Олигон – стъпка нагоре; основна възходяща невма (+1)."@bg ;
-        :greekName "Ὀλίγον" ;
-        rdfs:comment "One step up."@en ;
-        rdfs:label "Oligon"@en ;
-        rdfs:comment "Олигон — една степен нагоре. Основният възходящ знак."@bg .
+:EasternOrthodoxTradition :traditionKey "eastern-orthodox" ;
+                          rdfs:label "Eastern Orthodox Tradition"@en ,
+                                     "Източноправославна певческа традиция"@bg .
 
 
 #################################################################
@@ -5089,6 +5975,15 @@ xsd:gYear rdf:type rdfs:Datatype .
 
 
 [ rdf:type owl:AllDifferent ;
+  owl:distinctMembers ( :AthoniteTradition
+                        :BulgarianChantingTradition
+                        :ConstantinopolitanSchool
+                        :EasternOrthodoxTradition
+                      )
+] .
+
+
+[ rdf:type owl:AllDifferent ;
   owl:distinctMembers ( :Mode1
                         :Mode2
                         :Mode3
@@ -5115,4 +6010,4 @@ xsd:gYear rdf:type rdfs:Datatype .
 ] .
 
 
-###  Generated by the OWL API (version 4.5.9.2019-02-01T07:24:44Z) https://github.com/owlcs/owlapi
+###  Generated by the OWL API (version 4.5.29.2024-05-13T12:11:03Z) https://github.com/owlcs/owlapi

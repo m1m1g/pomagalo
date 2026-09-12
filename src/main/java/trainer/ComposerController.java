@@ -26,10 +26,10 @@ public class ComposerController {
     private static final Logger LOG = Logger.getLogger(ComposerController.class.getName());
 
     @FXML private Label cardVoiceTitle, cardParamsTitle;
-    @FXML private Label lblMode, lblTradition, lblStyle, lblTitle, lblLength;
+    @FXML private Label lblMode, lblStyle, lblTitle, lblLength;
     @FXML private Label lengthLabel, outputMeta, statusLabel;
 
-    @FXML private ComboBox<String> modeChoice, tradChoice, styleChoice;
+    @FXML private ComboBox<String> modeChoice, styleChoice;
     @FXML private TextField        incipitField;
     @FXML private Slider           lengthSlider;
     @FXML private HBox             paralagePane;
@@ -40,11 +40,11 @@ public class ComposerController {
 
     private final Composer composer = new Composer();
 
-    private List<Composer.Mode>      modes      = List.of();
-    private List<Composer.Tradition> traditions = List.of();
-    private List<Composer.Style>     styles     = List.of();
+    private List<Composer.Mode>  modes  = List.of();
+    private List<Composer.Style> styles = List.of();
 
     private ComposerAgent.Composed current;
+
 
     @FXML
     public void initialize() {
@@ -65,7 +65,6 @@ public class ComposerController {
         cardParamsTitle.setText(Lang.t("cmCardParams"));
 
         lblMode.setText(Lang.t("kbMode"));
-        lblTradition.setText(Lang.t("cmTradition"));
         lblStyle.setText(Lang.t("cmStyle"));
         lblTitle.setText(Lang.t("cmTitle"));
         lblLength.setText(Lang.t("cmLength"));
@@ -81,21 +80,14 @@ public class ComposerController {
     }
 
     private void loadChoices() {
-        modes      = composer.modes();
-        traditions = composer.traditions();
-        styles     = composer.styles();
+        modes  = composer.modes();
+        styles = composer.styles();
 
         List<String> modeNames = new ArrayList<>();
         for (Composer.Mode m : modes) modeNames.add(m.number() + ". " + m.label());
         if (modeNames.isEmpty()) modeNames.add(Lang.t("quizNoData"));
         modeChoice.setItems(FXCollections.observableArrayList(modeNames));
         modeChoice.getSelectionModel().selectFirst();
-
-        List<String> tradNames = new ArrayList<>();
-        for (Composer.Tradition t : traditions) tradNames.add(t.label());
-        tradChoice.setItems(FXCollections.observableArrayList(tradNames));
-        tradChoice.getSelectionModel().selectFirst();
-        pokazhi(lblTradition, tradChoice, !traditions.isEmpty());
 
         List<String> styleNames = new ArrayList<>();
         for (Composer.Style s : styles) styleNames.add(s.label());
@@ -105,7 +97,7 @@ public class ComposerController {
         pokazhi(lblStyle, styleChoice, !styles.isEmpty());
 
         LOG.info("[Composer] Прочетени: " + modes.size() + " гласа, "
-               + traditions.size() + " традиции, " + styles.size() + " стила.");
+               + styles.size() + " стила.");
     }
 
     private void wireActions() {
@@ -145,8 +137,7 @@ public class ComposerController {
             statusLabel.setText(Lang.t("cmNoModes"));
             return;
         }
-        Composer.Style     style = selectedStyle();
-        Composer.Tradition trad  = selectedTradition();
+        Composer.Style style = selectedStyle();
 
         busy(true);
         outputArea.setText("");
@@ -156,7 +147,6 @@ public class ComposerController {
         String content = "COMPOSE:"
             + m.number()                                                  + "|"
             + (style != null ? LibrarianAgent.pole(style.key()) : "")      + "|"
-            + (trad  != null ? LibrarianAgent.pole(trad.key())  : "")      + "|"
             + LibrarianAgent.pole(incipitField.getText())                  + "|"
             + length();
 
@@ -183,7 +173,6 @@ public class ComposerController {
                          + chant.notes());
 
         StringBuilder meta = new StringBuilder(chant.mode());
-        if (!chant.tradition().isBlank()) meta.append("  ·  ").append(chant.tradition());
         if (!chant.style().isBlank())     meta.append("  ·  ").append(chant.style());
         outputMeta.setText(meta.toString());
 
@@ -238,11 +227,6 @@ public class ComposerController {
             n.setVisible(da);
             n.setManaged(da);
         }
-    }
-
-    private Composer.Tradition selectedTradition() {
-        int i = tradChoice.getSelectionModel().getSelectedIndex();
-        return (i >= 0 && i < traditions.size()) ? traditions.get(i) : null;
     }
 
     private Composer.Style selectedStyle() {

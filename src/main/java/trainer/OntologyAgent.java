@@ -53,13 +53,6 @@ public class OntologyAgent extends Agent {
             return "ERROR: непознати данни: " + what;
         }
 
-        if (content.startsWith("UPDATE:")) {
-            String sparql = content.substring("UPDATE:".length()).trim();
-            if (Ontology.get().update(sparql)) return "OK";
-            String why = Ontology.get().lastError();
-            return "ERROR: " + (why != null ? why : "неуспешна промяна");
-        }
-
         if (content.trim().equalsIgnoreCase("PING")) return "PONG";
         return "ERROR: непозната команда";
     }

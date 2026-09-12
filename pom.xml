@@ -13,16 +13,11 @@
   <name>Паралагия — помагало</name>
   <description>
     Учебно помагало за византийско църковно пеене: справочник, тест,
-    съставител и библиотека над онтология на OWL. Четири агента на JADE,
+    съставител и библиотека над онтология на OWL. Пет агента на JADE,
     всичко останало — обикновени класове на Java.
 
     Издание без звукова част: приложението не отваря звукова линия, не
     приема вход от външна уредба и не съдържа раздел, който да свири.
-    Строят остава като предметно знание в trainer.ToneEngine — таблица с
-    мории и пресмятане на височина, без извеждане на звук.
-
-    Редакторът на онтологията е отделно приложение (trainer.AdminApp) в
-    същия проект — виж README.
   </description>
 
   <properties>
@@ -33,7 +28,6 @@
     <jade.version>4.6.0</jade.version>
     <jena.version>4.10.0</jena.version>
     <main.class>trainer.App</main.class>
-    <admin.class>trainer.AdminApp</admin.class>
   </properties>
 
   <dependencies>
@@ -84,13 +78,6 @@
       <artifactId>sqlite-jdbc</artifactId>
       <version>3.46.1.0</version>
     </dependency>
-
-    <dependency>
-      <groupId>org.junit.jupiter</groupId>
-      <artifactId>junit-jupiter</artifactId>
-      <version>5.10.2</version>
-      <scope>test</scope>
-    </dependency>
   </dependencies>
 
   <repositories>
@@ -119,20 +106,6 @@
         <configuration>
           <mainClass>${main.class}</mainClass>
         </configuration>
-        <executions>
-          <execution>
-            <id>admin</id>
-            <configuration>
-              <mainClass>${admin.class}</mainClass>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <version>3.2.5</version>
       </plugin>
     </plugins>
   </build>

@@ -13,7 +13,7 @@ public final class Pathove {
 
     private static final Logger LOG = Logger.getLogger(Pathove.class.getName());
 
-    private static final String BELEG = "data/byzantine_music3.owl";
+    private static final String BELEG = "data/byzantine_music4.owl";
 
     private static final String SVOYSTVO = "paralagia.dir";
 

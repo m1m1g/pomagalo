@@ -30,8 +30,6 @@
                     <ComboBox fx:id="modeChoice" styleClass="field-choice"/>
                     <HBox fx:id="paralagePane" spacing="4"
                           maxWidth="10000" styleClass="scale-row"/>
-                    <Label fx:id="lblTradition" styleClass="field-label"/>
-                    <ComboBox fx:id="tradChoice" styleClass="field-choice"/>
                     <Label fx:id="lblStyle" styleClass="field-label"/>
                     <ComboBox fx:id="styleChoice" styleClass="field-choice"/>
                 </VBox>

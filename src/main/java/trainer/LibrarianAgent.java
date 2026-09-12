@@ -1,6 +1,5 @@
 package trainer;
 
-import jade.core.AID;
 import jade.core.Agent;
 import jade.core.behaviours.CyclicBehaviour;
 import jade.domain.DFService;
@@ -11,23 +10,19 @@ import jade.lang.acl.MessageTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Logger;
 
 public class LibrarianAgent extends Agent {
 
     private static final Logger LOG = Logger.getLogger(LibrarianAgent.class.getName());
-    private static final long TIMEOUT = 10_000;
 
     public static final String SERVICE = "librarian";
-
-    private AID ontology;
 
     @Override
     protected void setup() {
         register();
         addBehaviour(new Handle());
-        LOG.info("[LibrarianAgent] Готов. Пази записаното и съставя упражнения.");
+        LOG.info("[LibrarianAgent] Готов. Пази записаното в базата.");
     }
 
     @Override
@@ -41,7 +36,7 @@ public class LibrarianAgent extends Agent {
             dfd.setName(getAID());
             ServiceDescription sd = new ServiceDescription();
             sd.setType(SERVICE);
-            sd.setName("library-keeper-and-exercise-generator");
+            sd.setName("library-keeper");
             dfd.addServices(sd);
             DFService.register(this, dfd);
         } catch (Exception e) {
@@ -49,11 +44,7 @@ public class LibrarianAgent extends Agent {
         }
     }
 
-    public static String handle(String content) {
-        return build(content, null);
-    }
-
-    private static String build(String content, List<Map<String, String>> glasove) {
+    private static String build(String content) {
         if (content == null || content.isBlank()) return "ERROR: празно съобщение";
         String cmd = content.trim();
 
@@ -70,16 +61,6 @@ public class LibrarianAgent extends Agent {
             return "ERROR: непознат вид запис: " + what;
         }
 
-        if (cmd.equalsIgnoreCase("NEXT")) {
-            return Exercise.encode(Exercise.next(
-                glasove != null ? glasove : Quiz.glasove()));
-        }
-        if (cmd.startsWith("CHECK:")) {
-            String body = cmd.substring("CHECK:".length());
-            String[] parts = body.split("\\|", -1);
-            if (parts.length < 2) return "0/0;ERROR: липсва отговор";
-            return Exercise.check(parts[0], parts[1]);
-        }
         return "ERROR: непозната команда";
     }
 
@@ -91,13 +72,7 @@ public class LibrarianAgent extends Agent {
             ACLMessage msg = myAgent.receive(mt);
             if (msg == null) { block(); return; }
 
-            String content = msg.getContent();
-
-            List<Map<String, String>> glasove =
-                (content != null && content.trim().equalsIgnoreCase("NEXT"))
-                    ? fetchGlasove() : null;
-
-            String result = build(content, glasove);
+            String result = build(msg.getContent());
 
             ACLMessage reply = msg.createReply();
             reply.setPerformative(result.startsWith("ERROR:")
@@ -114,7 +89,7 @@ public class LibrarianAgent extends Agent {
         String[] p = tyalo.substring(dvoetochie + 1).split("\\|", -1);
 
         if ("chant".equals(vid)) {
-            if (p.length < 4) return "ERROR: песнопението иска четири полета";
+            if (p.length < 4) return "ERROR: упражнението иска четири полета";
             Db.get().saveChant(p[0], p[1], p[2], p[3]);
             return "OK";
         }
@@ -150,42 +125,5 @@ public class LibrarianAgent extends Agent {
             out.add(cells);
         }
         return out;
-    }
-
-    private List<Map<String, String>> fetchGlasove() {
-        try {
-            if (ontology == null) ontology = findOntology();
-            if (ontology == null) return Quiz.glasove();
-
-            String key = "l-" + System.currentTimeMillis();
-            ACLMessage req = new ACLMessage(ACLMessage.REQUEST);
-            req.addReceiver(ontology);
-            req.setContent("GET:glasove");
-            req.setReplyWith(key);
-            send(req);
-
-            ACLMessage reply = blockingReceive(MessageTemplate.MatchInReplyTo(key), TIMEOUT);
-            if (reply == null || reply.getPerformative() == ACLMessage.FAILURE) {
-                return Quiz.glasove();
-            }
-            return Ontology.decodeRows(reply.getContent());
-        } catch (Exception e) {
-            LOG.warning("[LibrarianAgent] Заявката към онтологията пропадна: " + e.getMessage());
-            return Quiz.glasove();
-        }
-    }
-
-    private AID findOntology() {
-        try {
-            DFAgentDescription tmpl = new DFAgentDescription();
-            ServiceDescription sd = new ServiceDescription();
-            sd.setType(OntologyAgent.SERVICE);
-            tmpl.addServices(sd);
-            DFAgentDescription[] found = DFService.search(this, tmpl);
-            if (found.length > 0) return found[0].getName();
-        } catch (Exception e) {
-            LOG.warning("[LibrarianAgent] Търсенето в DF пропадна: " + e.getMessage());
-        }
-        return null;
     }
 }
