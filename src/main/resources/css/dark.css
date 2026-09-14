@@ -1,0 +1,67 @@
+.root {
+    -bg-deep:       #08070a;
+    -bg-chrome:     #1d0d05;
+    -bg-panel:      #18161f;
+    -bg-card:       #1e1c28;
+    -bg-raised:     #282535;
+    -bg-hover:      #302d3e;
+
+    -border:        #38344a;
+    -border-hi:     #6b5c3e;
+    -border-card:   #2e2a3c;
+    -border-chrome: #3a1e0a;
+
+    -gold:          #d9ae52;
+    -gold-hi:       #f0cf6e;
+    -gold-dim:      #8a6e2e;
+    -gold-deep:     #a87c28;
+    -gold-glow:     rgba(217, 174, 82, 0.30);
+    -gold-wash:     rgba(217, 174, 82, 0.12);
+
+    -text-bright:   #ffffff;
+    -text-mid:      #e8d8bc;
+    -text-dim:      #c0a888;
+    -text-muted:    #887868;
+    -text-on-chrome:#ffffff;
+    -text-on-gold:  #0a0800;
+
+    -accent-teal:   #3faa82;
+    -green-ok:      #3faa82;
+    -shadow:        rgba(0, 0, 0, 0.50);
+
+    -ok-bg:         #183824;
+    -ok-border:     #3faa82;
+    -ok-text:       #7ae0b0;
+    -err-bg:        #3a1c1c;
+    -err-border:    #b06a6a;
+    -err-text:      #e7a9a9;
+
+    -finalis-bg:    linear-gradient(to bottom, #3a2c0a, #2a1e05);
+}
+
+.combo-box-popup .list-view {
+    -fx-background-color: #15131e;
+    -fx-border-color:     #d9ae52;
+    -fx-border-width:     1px;
+    -fx-effect:           dropshadow(gaussian, rgba(0, 0, 0, 0.80), 20, 0, 0, 6);
+}
+.combo-box-popup .list-cell {
+    -fx-background-color: transparent;
+    -fx-text-fill:        #ffffff;
+    -fx-font-size:        14px;
+    -fx-font-weight:      bold;
+    -fx-padding:          9 16 9 16;
+}
+.combo-box-popup .list-cell:odd { -fx-background-color: rgba(255, 255, 255, 0.03); }
+.combo-box-popup .list-cell:filled:hover {
+    -fx-background-color: rgba(217, 174, 82, 0.22);
+    -fx-text-fill:        #f0cf6e;
+}
+.combo-box-popup .list-cell:filled:selected {
+    -fx-background-color: #c09030;
+    -fx-text-fill:        #0a0800;
+}
+.combo-box-popup .list-cell:filled:selected:hover {
+    -fx-background-color: #d9ae52;
+    -fx-text-fill:        #0a0800;
+}

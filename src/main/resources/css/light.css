@@ -1,0 +1,67 @@
+.root {
+    -bg-deep:       #f2ede2;
+    -bg-chrome:     #e6d9bf;
+    -bg-panel:      #efe9dc;
+    -bg-card:       #fffdf8;
+    -bg-raised:     #f6f1e4;
+    -bg-hover:      #ece4d2;
+
+    -border:        #d3c9b4;
+    -border-hi:     #b09a63;
+    -border-card:   #ded5c2;
+    -border-chrome: #c9b48a;
+
+    -gold:          #8a6a1e;
+    -gold-hi:       #6b5112;
+    -gold-dim:      #b09a63;
+    -gold-deep:     #6b5112;
+    -gold-glow:     rgba(138, 106, 30, 0.18);
+    -gold-wash:     rgba(138, 106, 30, 0.10);
+
+    -text-bright:   #241f16;
+    -text-mid:      #453c2c;
+    -text-dim:      #6b5f4a;
+    -text-muted:    #8d8271;
+    -text-on-chrome:#241f16;
+    -text-on-gold:  #fffdf8;
+
+    -accent-teal:   #1f6b4c;
+    -green-ok:      #1f6b4c;
+    -shadow:        rgba(90, 75, 45, 0.18);
+
+    -ok-bg:         #e2efe5;
+    -ok-border:     #1f6b4c;
+    -ok-text:       #14523a;
+    -err-bg:        #f6e4e4;
+    -err-border:    #8c3b3b;
+    -err-text:      #6b2626;
+
+    -finalis-bg:    linear-gradient(to bottom, #f6e6bd, #ecd79f);
+}
+
+.combo-box-popup .list-view {
+    -fx-background-color: #fffdf8;
+    -fx-border-color:     #8a6a1e;
+    -fx-border-width:     1px;
+    -fx-effect:           dropshadow(gaussian, rgba(90, 75, 45, 0.28), 20, 0, 0, 6);
+}
+.combo-box-popup .list-cell {
+    -fx-background-color: transparent;
+    -fx-text-fill:        #241f16;
+    -fx-font-size:        14px;
+    -fx-font-weight:      bold;
+    -fx-padding:          9 16 9 16;
+}
+.combo-box-popup .list-cell:odd { -fx-background-color: rgba(90, 75, 45, 0.04); }
+.combo-box-popup .list-cell:filled:hover {
+    -fx-background-color: rgba(138, 106, 30, 0.16);
+    -fx-text-fill:        #6b5112;
+}
+.combo-box-popup .list-cell:filled:selected {
+    -fx-background-color: #8a6a1e;
+    -fx-text-fill:        #fffdf8;
+}
+.combo-box-popup .list-cell:filled:selected:hover {
+    -fx-background-color: #6b5112;
+    -fx-text-fill:        #fffdf8;
+}
